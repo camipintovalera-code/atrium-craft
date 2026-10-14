@@ -1,0 +1,4725 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Atrium Craft — sitio web completo en un solo archivo.">
+  <title>Atrium Craft</title>
+  <style>
+    :root {
+      --bg: #030405;
+      --surface: #0b0e12;
+      --surface2: #10151b;
+      --text: #f5f7fa;
+      --muted: #a3abb6;
+      --line: #252e39;
+      --blue: #1691ff;
+      --blue2: #7dcbff;
+      --paper: #f3f4f1;
+      --ink: #111315;
+      --max: 1320px
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.75
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    img {
+      max-width: 100%;
+      display: block
+    }
+
+    .wrap {
+      width: min(92%, var(--max));
+      margin: auto
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(3, 4, 5, .95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #151a20
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .22em;
+      white-space: nowrap
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .navlinks a {
+      font-size: 12px;
+      color: #aeb6c1
+    }
+
+    .navlinks a:hover,
+    .navlinks .active {
+      color: white
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #394351;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .04em
+    }
+
+    .btn.blue {
+      background: var(--blue);
+      border-color: var(--blue)
+    }
+
+    .btn.dark {
+      background: #07090c
+    }
+
+    .btn.paper {
+      background: white;
+      color: #111;
+      border-color: white
+    }
+
+    .cover-banner {
+      background: #000
+    }
+
+    .cover-banner img {
+      width: 100%;
+      height: auto;
+      max-height: 620px;
+      object-fit: cover
+    }
+
+    .profile {
+      text-align: center;
+      padding-bottom: 45px
+    }
+
+    .avatar {
+      width: 176px;
+      height: 176px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 7px solid var(--bg);
+      margin: -84px auto 0;
+      position: relative;
+      z-index: 3;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .65)
+    }
+
+    .profile-name {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      margin-top: 10px
+    }
+
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #737b86;
+      color: #0b0d0f;
+      font-size: 12px;
+      vertical-align: 7px;
+      margin-left: 6px
+    }
+
+    .profile-sub {
+      font-size: 14px;
+      color: #aab2bd
+    }
+
+    .chips {
+      margin-top: 13px
+    }
+
+    .chip {
+      display: inline-block;
+      border: 1px solid #28323d;
+      border-radius: 999px;
+      padding: 5px 11px;
+      margin: 3px;
+      color: #ccd2da;
+      font-size: 11px
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px
+    }
+
+    .kicker {
+      color: var(--blue2);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-transform: uppercase
+    }
+
+    .section {
+      padding: 100px 0
+    }
+
+    .alt {
+      background: #080b0f
+    }
+
+    .deep {
+      background: #0a0d11
+    }
+
+    .section-head {
+      max-width: 900px;
+      margin-bottom: 42px
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin-top: 0
+    }
+
+    h1 {
+      font-size: clamp(46px, 7vw, 92px);
+      line-height: .95;
+      letter-spacing: -.065em;
+      margin-bottom: 24px
+    }
+
+    h2 {
+      font-size: clamp(33px, 4.3vw, 60px);
+      line-height: 1;
+      letter-spacing: -.05em;
+      margin-bottom: 18px
+    }
+
+    h3 {
+      font-size: 23px;
+      line-height: 1.15;
+      margin-bottom: 10px
+    }
+
+    .lead {
+      font-size: 19px;
+      color: #d3d8df;
+      max-width: 850px
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    .prose {
+      max-width: 920px
+    }
+
+    .prose p {
+      font-size: 17px;
+      color: #c2c8d0
+    }
+
+    .prose h2 {
+      margin-top: 54px
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px
+    }
+
+    .g2 {
+      grid-template-columns: repeat(2, 1fr)
+    }
+
+    .g3 {
+      grid-template-columns: repeat(3, 1fr)
+    }
+
+    .g4 {
+      grid-template-columns: repeat(4, 1fr)
+    }
+
+    .card {
+      background: linear-gradient(145deg, #0e1217, #090c10);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden
+    }
+
+    .card-body {
+      padding: 24px
+    }
+
+    .media {
+      position: relative
+    }
+
+    .thumb {
+      width: 100%;
+      height: 300px;
+      object-fit: cover
+    }
+
+    .overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 20px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .94));
+      font-weight: 900
+    }
+
+    .play {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .72);
+      border: 1px solid rgba(255, 255, 255, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .footer {
+      padding: 70px 0 28px;
+      border-top: 1px solid var(--line);
+      background: #020304
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 30px
+    }
+
+    .footer-links a {
+      display: block;
+      color: #939ca8;
+      font-size: 13px;
+      margin: 6px 0
+    }
+
+    .footer-copy {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid #171d24;
+      color: #5f6874;
+      font-size: 12px
+    }
+
+    /* HOME */
+    .home-hero {
+      min-height: 680px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden
+    }
+
+    .home-hero:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, .95), rgba(0, 0, 0, .5), rgba(0, 0, 0, .78)), url('assets/banner-atrium-craft.png') center/cover no-repeat
+    }
+
+    .home-inner {
+      position: relative;
+      z-index: 1;
+      padding: 100px 0;
+      max-width: 920px
+    }
+
+    .statbar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .stat {
+      padding: 26px 18px;
+      border-right: 1px solid var(--line)
+    }
+
+    .stat:last-child {
+      border-right: 0
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 30px
+    }
+
+    .stat span {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px
+    }
+
+    .quote {
+      padding: 42px;
+      border: 1px solid #28313b;
+      border-left: 4px solid var(--blue);
+      border-radius: 14px;
+      background: #06090d;
+      font-size: 28px;
+      line-height: 1.4
+    }
+
+    /* CATEGORY */
+    .cat-intro {
+      padding: 92px 0 55px;
+      background: radial-gradient(circle at 80% 10%, rgba(22, 145, 255, .14), transparent 35%), #050709
+    }
+
+    .cat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px
+    }
+
+    .cat-card {
+      min-height: 320px;
+      border: 1px solid var(--line);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #080b0f
+    }
+
+    .cat-card .icon {
+      font-size: 34px
+    }
+
+    .cat-card h2 {
+      font-size: 30px;
+      margin: 18px 0 10px
+    }
+
+    .cat-card p {
+      color: #9da6b1
+    }
+
+    /* CONSTRUCTION */
+    .construction-page {
+      background: #0b0d0f
+    }
+
+    .blueprint {
+      background: #e9ecef;
+      color: #111;
+      padding: 70px 0
+    }
+
+    .blueprint-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 40px;
+      align-items: start
+    }
+
+    .blueprint h1 {
+      font-size: clamp(55px, 8vw, 110px)
+    }
+
+    .specs {
+      border-left: 2px solid #111;
+      padding-left: 24px
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid #b8bec4;
+      padding: 12px 0;
+      font: 800 12px/1.4 monospace
+    }
+
+    .field {
+      padding: 100px 0
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 28px
+    }
+
+    .field img {
+      width: 100%;
+      height: 570px;
+      object-fit: cover
+    }
+
+    .field-notes {
+      border-top: 1px solid #2b323a
+    }
+
+    .field-note {
+      padding: 26px 0;
+      border-bottom: 1px solid #2b323a
+    }
+
+    .field-note strong {
+      display: block;
+      color: var(--blue2);
+      font-size: 12px;
+      letter-spacing: .15em
+    }
+
+    .field-note p {
+      color: #a5aeb9;
+      margin: 7px 0
+    }
+
+    /* OUTDOORS */
+    .outdoors-page {
+      background: #07100a
+    }
+
+    .outdoor-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 680px
+    }
+
+    .outdoor-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .outdoor-hero-copy {
+      padding: 90px 8vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #0a150d
+    }
+
+    .green-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #213124
+    }
+
+    .green-item {
+      background: #0b130e;
+      padding: 32px;
+      min-height: 260px
+    }
+
+    .green-item h3 {
+      font-size: 20px
+    }
+
+    .green-item p {
+      color: #8fa092;
+      font-size: 14px
+    }
+
+    .outdoor-story {
+      padding: 110px 0
+    }
+
+    .outdoor-story .story {
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 70px
+    }
+
+    .outdoor-story .story h2 {
+      font-size: 70px
+    }
+
+    /* HOUSES */
+    .houses-page {
+      background: #f2f0ea;
+      color: #17191a
+    }
+
+    .houses-page .muted {
+      color: #62676a
+    }
+
+    .houses-page .kicker {
+      color: #176fa8
+    }
+
+    .houses-page .top {
+      background: rgba(242, 240, 234, .96);
+      border-color: #d2d0ca
+    }
+
+    .houses-page .navlinks a {
+      color: #63676a
+    }
+
+    .houses-page .navlinks a:hover,
+    .houses-page .navlinks .active {
+      color: #111
+    }
+
+    .houses-page .brand {
+      color: #111
+    }
+
+    .houses-page .btn {
+      border-color: #a6aaab
+    }
+
+    .houses-page .footer {
+      background: #17191a;
+      color: white
+    }
+
+    .paper-hero {
+      padding: 95px 0 80px;
+      border-bottom: 1px solid #d1cec7
+    }
+
+    .paper-columns {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 70px
+    }
+
+    .paper-columns p {
+      font-size: 18px;
+      color: #5a5f62
+    }
+
+    .paper-photo {
+      margin-top: 50px
+    }
+
+    .paper-photo img {
+      width: 100%;
+      height: 580px;
+      object-fit: cover
+    }
+
+    .room-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px
+    }
+
+    .room-grid .room {
+      grid-column: span 5;
+      border-top: 3px solid #111;
+      padding-top: 18px
+    }
+
+    .room-grid .room.big {
+      grid-column: span 7
+    }
+
+    .room p {
+      color: #666;
+      font-size: 14px
+    }
+
+    /* EXTREME */
+    .extreme-page {
+      background: #050608
+    }
+
+    .extreme-hero {
+      min-height: 760px;
+      position: relative;
+      background: url('assets/reel-02.jpg') center/cover no-repeat
+    }
+
+    .extreme-hero:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .9))
+    }
+
+    .extreme-copy {
+      position: relative;
+      z-index: 1;
+      padding: 170px 0 90px;
+      max-width: 900px
+    }
+
+    .extreme-label {
+      font: 800 11px/1 monospace;
+      letter-spacing: .2em;
+      color: #d9f0ff
+    }
+
+    .extreme-log {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid #353a40;
+      border-bottom: 1px solid #353a40
+    }
+
+    .extreme-log article {
+      padding: 35px;
+      border-right: 1px solid #353a40
+    }
+
+    .extreme-log article:last-child {
+      border-right: 0
+    }
+
+    .extreme-log p {
+      color: #959da7;
+      font-size: 14px
+    }
+
+    .extreme-text {
+      padding: 100px 0
+    }
+
+    .extreme-text .manifest {
+      font-size: 44px;
+      line-height: 1.12;
+      max-width: 1100px
+    }
+
+    /* TRANSFORMATIONS */
+    .transform-page {
+      background: #f5f6f7;
+      color: #151719
+    }
+
+    .transform-page .top {
+      background: rgba(245, 246, 247, .96);
+      border-color: #d8dce0
+    }
+
+    .transform-page .brand,
+    .transform-page .navlinks a {
+      color: #111
+    }
+
+    .trans-title {
+      padding: 85px 0 40px
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .ba {
+      position: relative;
+      background: #ddd
+    }
+
+    .ba img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover
+    }
+
+    .ba span {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      background: #111;
+      color: white;
+      padding: 7px 11px;
+      font: 900 10px/1 Arial;
+      letter-spacing: .14em
+    }
+
+    .trans-copy {
+      max-width: 900px;
+      padding: 55px 0 100px
+    }
+
+    .trans-copy p {
+      font-size: 18px;
+      color: #5e646a
+    }
+
+    .stages {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid #c4c8cc
+    }
+
+    .stage {
+      padding: 28px 18px;
+      border-right: 1px solid #c4c8cc;
+      min-height: 220px
+    }
+
+    .stage:last-child {
+      border: 0
+    }
+
+    .stage b {
+      font: 900 11px/1 Arial;
+      color: #777;
+      letter-spacing: .16em
+    }
+
+    .stage h3 {
+      margin-top: 25px
+    }
+
+    /* IDEAS */
+    .ideas-page {
+      background: #121013
+    }
+
+    .ideas-hero {
+      padding: 85px 0 60px
+    }
+
+    .ideas-board {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px
+    }
+
+    .idea {
+      padding: 24px;
+      border: 1px solid #343037;
+      background: #181519;
+      min-height: 260px
+    }
+
+    .idea:nth-child(1) {
+      grid-column: span 7
+    }
+
+    .idea:nth-child(2) {
+      grid-column: span 5
+    }
+
+    .idea:nth-child(3) {
+      grid-column: span 5
+    }
+
+    .idea:nth-child(4) {
+      grid-column: span 7
+    }
+
+    .idea:nth-child(5) {
+      grid-column: span 4
+    }
+
+    .idea:nth-child(6) {
+      grid-column: span 4
+    }
+
+    .idea:nth-child(7) {
+      grid-column: span 4
+    }
+
+    .idea h3 {
+      margin-top: 45px
+    }
+
+    .idea p {
+      color: #9f99a1
+    }
+
+    .ideas-essay {
+      padding: 95px 0;
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 60px;
+      border-top: 1px solid #302b31
+    }
+
+    .ideas-essay h2 {
+      font-size: 66px
+    }
+
+    /* PROJECTS */
+    .projects-page {
+      background: #060708
+    }
+
+    .project-index {
+      padding: 90px 0 40px
+    }
+
+    .project-table {
+      border-top: 1px solid #2e353e
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 90px 1.2fr .9fr 120px;
+      gap: 25px;
+      align-items: center;
+      border-bottom: 1px solid #2e353e;
+      padding: 28px 0
+    }
+
+    .project-row img {
+      width: 160px;
+      height: 100px;
+      object-fit: cover
+    }
+
+    .project-name {
+      font-size: 22px;
+      font-weight: 900
+    }
+
+    .project-meta {
+      color: #8f98a5;
+      font-size: 13px
+    }
+
+    .project-no {
+      color: var(--blue2);
+      font: 900 12px monospace
+    }
+
+    .project-essay {
+      padding: 95px 0;
+      background: #0b0f14
+    }
+
+    .project-essay p {
+      max-width: 930px;
+      color: #b9c0c8;
+      font-size: 17px
+    }
+
+    /* PROCESS */
+    .process-page {
+      background: #e8eaeb;
+      color: #111
+    }
+
+    .process-page .top {
+      background: rgba(232, 234, 235, .97);
+      border-color: #cbd0d4
+    }
+
+    .process-page .brand,
+    .process-page .navlinks a {
+      color: #111
+    }
+
+    .process-intro {
+      padding: 90px 0 40px
+    }
+
+    .process-intro h1 {
+      font-size: clamp(55px, 8vw, 120px)
+    }
+
+    .process-line {
+      border-top: 3px solid #111;
+      margin-top: 40px
+    }
+
+    .process-item {
+      display: grid;
+      grid-template-columns: 100px .7fr 1.3fr;
+      gap: 35px;
+      padding: 44px 0;
+      border-bottom: 1px solid #c3c7ca
+    }
+
+    .process-num {
+      font: 900 50px/1 monospace
+    }
+
+    .process-item h2 {
+      font-size: 38px
+    }
+
+    .process-item p {
+      color: #5c6267;
+      font-size: 16px
+    }
+
+    .process-bottom {
+      margin-top: 70px;
+      background: #111;
+      color: white;
+      padding: 70px 0
+    }
+
+    .process-bottom .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px
+    }
+
+    .process-bottom p {
+      color: #adb4bc;
+      font-size: 16px
+    }
+
+    /* REELS */
+    .reels-page {
+      background: #f1f0ed;
+      color: #141617
+    }
+
+    .reels-page .top {
+      background: rgba(241, 240, 237, .96);
+      border-color: #d2d0ca
+    }
+
+    .reels-page .brand,
+    .reels-page .navlinks a {
+      color: #111
+    }
+
+    .reels-title {
+      padding: 80px 0 40px
+    }
+
+    .reels-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 30px
+    }
+
+    .reels-head .big {
+      font: 900 clamp(70px, 12vw, 180px)/.75 monospace;
+      letter-spacing: -.08em
+    }
+
+    .reels-count {
+      font: 900 70px/.8 Arial;
+      text-align: right
+    }
+
+    .reels-masonry {
+      columns: 4 240px;
+      column-gap: 15px;
+      padding: 35px 0 110px
+    }
+
+    .reel-card {
+      break-inside: avoid;
+      margin: 0 0 15px;
+      background: white;
+      border: 1px solid #d9d7d1;
+      border-radius: 14px;
+      overflow: hidden
+    }
+
+    .reel-card img {
+      width: 100%;
+      aspect-ratio: 9/12;
+      object-fit: cover
+    }
+
+    .reel-card .rcopy {
+      padding: 16px
+    }
+
+    .reel-card .rcopy small {
+      font: 900 9px/1 monospace;
+      color: #73767a;
+      letter-spacing: .13em
+    }
+
+    .reel-card .rcopy h3 {
+      font-size: 16px;
+      margin: 8px 0 0
+    }
+
+    .reels-bottom {
+      background: #dadbd7;
+      padding: 55px 0
+    }
+
+    .reels-bottom p {
+      max-width: 800px;
+      color: #565b5e;
+      font-size: 16px
+    }
+
+    /* NOSOTROS */
+    .about-page {
+      background: #0d0e10
+    }
+
+    .about-hero {
+      padding: 100px 0 65px
+    }
+
+    .about-hero h1 {
+      max-width: 1200px
+    }
+
+    .manifesto {
+      border-top: 1px solid #2b2f34;
+      border-bottom: 1px solid #2b2f34;
+      padding: 80px 0
+    }
+
+    .manifesto p {
+      font-size: clamp(27px, 4vw, 55px);
+      font-weight: 900;
+      line-height: 1.05;
+      max-width: 1120px;
+      letter-spacing: -.03em
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #2b2f34
+    }
+
+    .about-card {
+      background: #0d0e10;
+      padding: 40px;
+      min-height: 360px
+    }
+
+    .about-card span {
+      color: var(--blue2);
+      font: 900 11px/1 monospace
+    }
+
+    .about-card h2 {
+      font-size: 32px;
+      margin-top: 60px
+    }
+
+    .about-card p {
+      color: #9aa1aa;
+      font-size: 15px
+    }
+
+    .about-origin {
+      padding: 90px 0;
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 80px
+    }
+
+    .about-origin h2 {
+      font-size: 70px
+    }
+
+    .about-origin p {
+      color: #aab0b8;
+      font-size: 17px
+    }
+
+    /* CONTACT */
+    .contact-page {
+      background: #dfe4e7;
+      color: #111;
+      min-height: 100vh
+    }
+
+    .contact-panel {
+      width: min(1180px, 92%);
+      margin: 60px auto 90px;
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      background: #fff;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, .12)
+    }
+
+    .contact-left {
+      background: #0c0d0f;
+      color: #fff;
+      padding: 65px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between
+    }
+
+    .contact-left h1 {
+      font-size: clamp(58px, 7vw, 104px)
+    }
+
+    .contact-left p {
+      color: #9ba3ad;
+      font-size: 15px
+    }
+
+    .contact-right {
+      padding: 65px
+    }
+
+    .contact-right h2 {
+      font-size: 38px
+    }
+
+    .form {
+      display: grid;
+      gap: 18px
+    }
+
+    .form label {
+      font: 900 10px/1 Arial;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #555
+    }
+
+    .form input,
+    .form select,
+    .form textarea {
+      border: 0;
+      border-bottom: 2px solid #c3c6c8;
+      background: transparent;
+      padding: 13px 0;
+      outline: 0;
+      font-size: 15px
+    }
+
+    .form textarea {
+      min-height: 130px;
+      resize: vertical
+    }
+
+    .form button {
+      border: 0;
+      background: #111;
+      color: white;
+      padding: 18px;
+      font: 900 12px/1 Arial;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .contact-note {
+      margin-top: 25px;
+      padding: 18px;
+      background: #eef0f0;
+      color: #666;
+      font-size: 12px
+    }
+
+    @media(max-width:950px) {
+      .navlinks {
+        display: none
+      }
+
+      .footer-grid,
+      .blueprint-grid,
+      .field-grid,
+      .outdoor-hero,
+      .paper-columns,
+      .extreme-log,
+      .process-bottom .grid2,
+      .about-origin,
+      .contact-panel {
+        grid-template-columns: 1fr
+      }
+
+      .cat-cards,
+      .g3,
+      .g4,
+      .green-grid,
+      .about-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .project-row {
+        grid-template-columns: 60px 1fr 100px
+      }
+
+      .project-row .hide-mobile {
+        display: none
+      }
+
+      .room-grid {
+        grid-template-columns: 1fr
+      }
+
+      .room-grid .room,
+      .room-grid .room.big {
+        grid-column: auto
+      }
+
+      .stages {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stage {
+        border-bottom: 1px solid #c4c8cc
+      }
+
+      .before-after {
+        grid-template-columns: 1fr
+      }
+
+      .ideas-board {
+        grid-template-columns: 1fr
+      }
+
+      .idea,
+      .idea:nth-child(n) {
+        grid-column: auto
+      }
+
+      .ideas-essay {
+        grid-template-columns: 1fr
+      }
+
+      .process-item {
+        grid-template-columns: 70px 1fr
+      }
+
+      .process-item p {
+        grid-column: 2
+      }
+    }
+
+    @media(max-width:640px) {
+      .avatar {
+        width: 145px;
+        height: 145px;
+        margin-top: -70px
+      }
+
+      .profile-name {
+        font-size: 28px
+      }
+
+      .section {
+        padding: 78px 0
+      }
+
+      .lead {
+        font-size: 17px
+      }
+
+      .statbar {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .cat-cards,
+      .g2,
+      .g3,
+      .g4,
+      .green-grid,
+      .about-grid,
+      .stages {
+        grid-template-columns: 1fr
+      }
+
+      .project-row {
+        grid-template-columns: 50px 1fr
+      }
+
+      .project-row img {
+        display: none
+      }
+
+      .contact-left,
+      .contact-right {
+        padding: 38px
+      }
+
+      .extreme-copy {
+        padding-top: 130px
+      }
+
+      .reels-head {
+        display: block
+      }
+
+      .reels-count {
+        text-align: left;
+        margin-top: 25px
+      }
+    }
+
+    .site-page {
+      display: none
+    }
+
+    .site-page.active {
+      display: block
+    }
+
+    /* WHITE PROFESSIONAL EDITION */
+    :root {
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --surface2: #f7f8fa;
+      --text: #111827;
+      --muted: #667085;
+      --line: #e5e7eb;
+      --blue: #1677ff;
+      --blue2: #1677ff;
+      --paper: #ffffff;
+      --ink: #111827
+    }
+
+    body {
+      background: #fff;
+      color: #111827
+    }
+
+    .site-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .top {
+      background: rgba(255, 255, 255, .96);
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, .05)
+    }
+
+    .brand {
+      color: #111827
+    }
+
+    .brand img {
+      box-shadow: none
+    }
+
+    .navlinks a {
+      color: #667085
+    }
+
+    .navlinks a:hover,
+    .navlinks .active {
+      color: #111827
+    }
+
+    .btn {
+      border-color: #d1d5db;
+      background: #fff;
+      color: #111827
+    }
+
+    .btn.blue {
+      background: #1677ff;
+      border-color: #1677ff;
+      color: #fff
+    }
+
+    .btn.dark {
+      background: #111827;
+      border-color: #111827;
+      color: #fff
+    }
+
+    .btn.paper {
+      background: #fff;
+      color: #111827;
+      border-color: #d1d5db
+    }
+
+    .cover-banner {
+      background: #f5f7fa
+    }
+
+    .avatar {
+      border-color: #fff;
+      box-shadow: 0 15px 45px rgba(15, 23, 42, .16)
+    }
+
+    .profile-sub {
+      color: #667085
+    }
+
+    .chip {
+      border-color: #dbe1e8;
+      color: #475467;
+      background: #fff
+    }
+
+    .kicker {
+      color: #1677ff
+    }
+
+    .section {
+      background: #fff
+    }
+
+    .alt,
+    .deep {
+      background: #f8fafc
+    }
+
+    .section-head {
+      color: #111827
+    }
+
+    .lead {
+      color: #475467
+    }
+
+    .muted {
+      color: #667085
+    }
+
+    .prose p {
+      color: #475467
+    }
+
+    .card {
+      background: #fff;
+      border-color: #e5e7eb;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, .06)
+    }
+
+    .overlay {
+      background: linear-gradient(transparent, rgba(17, 24, 39, .88));
+      color: #fff
+    }
+
+    .play {
+      background: rgba(17, 24, 39, .82)
+    }
+
+    .footer {
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+      color: #111827
+    }
+
+    .footer-links a {
+      color: #667085
+    }
+
+    .footer-copy {
+      border-color: #e5e7eb;
+      color: #98a2b3
+    }
+
+    .home-hero {
+      background: #fff;
+      color: #111827;
+      min-height: 560px
+    }
+
+    .home-hero:before {
+      display: none
+    }
+
+    .home-inner {
+      padding: 90px 0
+    }
+
+    .statbar {
+      border-color: #e5e7eb
+    }
+
+    .stat {
+      border-color: #e5e7eb
+    }
+
+    .stat span {
+      color: #667085
+    }
+
+    .quote {
+      background: #f8fafc;
+      border-color: #dbe5ef;
+      color: #111827
+    }
+
+    .cat-intro {
+      background: linear-gradient(180deg, #fff, #f8fafc)
+    }
+
+    .cat-card {
+      background: #fff;
+      border-color: #e5e7eb;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .05)
+    }
+
+    .cat-card p {
+      color: #667085
+    }
+
+    .construction-page,
+    .blueprint,
+    .field {
+      background: #fff;
+      color: #111827
+    }
+
+    .blueprint {
+      border-bottom: 1px solid #e5e7eb
+    }
+
+    .specs {
+      border-color: #111827
+    }
+
+    .spec-row {
+      border-color: #d1d5db
+    }
+
+    .field-notes {
+      border-color: #e5e7eb
+    }
+
+    .field-note {
+      border-color: #e5e7eb
+    }
+
+    .field-note p {
+      color: #667085
+    }
+
+    .outdoors-page,
+    .outdoor-hero-copy,
+    .green-item {
+      background: #fff;
+      color: #111827
+    }
+
+    .outdoor-hero {
+      background: #fff
+    }
+
+    .green-grid {
+      background: #e5e7eb
+    }
+
+    .green-item {
+      border: 0
+    }
+
+    .green-item p {
+      color: #667085
+    }
+
+    .outdoor-story {
+      background: #fff
+    }
+
+    .outdoor-story .story p {
+      color: #475467
+    }
+
+    .houses-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .houses-page .top {
+      background: rgba(255, 255, 255, .96);
+      border-color: #e5e7eb
+    }
+
+    .houses-page .navlinks a {
+      color: #667085
+    }
+
+    .houses-page .navlinks a:hover,
+    .houses-page .navlinks .active {
+      color: #111827
+    }
+
+    .houses-page .brand {
+      color: #111827
+    }
+
+    .houses-page .btn {
+      border-color: #d1d5db
+    }
+
+    .paper-hero {
+      border-color: #e5e7eb
+    }
+
+    .paper-columns p {
+      color: #667085
+    }
+
+    .room-grid .room {
+      border-color: #111827
+    }
+
+    .room p {
+      color: #667085
+    }
+
+    .extreme-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .extreme-hero {
+      background: #fff
+    }
+
+    .extreme-hero:after {
+      display: none
+    }
+
+    .extreme-label {
+      color: #1677ff
+    }
+
+    .extreme-log {
+      border-color: #d1d5db
+    }
+
+    .extreme-log article {
+      border-color: #d1d5db
+    }
+
+    .extreme-log p {
+      color: #667085
+    }
+
+    .extreme-text {
+      background: #fff
+    }
+
+    .extreme-text .manifest {
+      color: #111827
+    }
+
+    .transform-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .transform-page .top {
+      background: rgba(255, 255, 255, .96);
+      border-color: #e5e7eb
+    }
+
+    .transform-page .brand,
+    .transform-page .navlinks a {
+      color: #111827
+    }
+
+    .trans-copy p {
+      color: #667085
+    }
+
+    .stages {
+      border-color: #d1d5db
+    }
+
+    .stage {
+      border-color: #d1d5db
+    }
+
+    .ideas-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .idea {
+      background: #f8fafc;
+      border-color: #e5e7eb
+    }
+
+    .idea p {
+      color: #667085
+    }
+
+    .ideas-essay {
+      border-color: #e5e7eb;
+      background: #fff
+    }
+
+    .projects-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .project-table {
+      border-color: #e5e7eb
+    }
+
+    .project-row {
+      border-color: #e5e7eb
+    }
+
+    .project-meta {
+      color: #667085
+    }
+
+    .project-no {
+      color: #1677ff
+    }
+
+    .project-essay {
+      background: #f8fafc
+    }
+
+    .project-essay p {
+      color: #667085
+    }
+
+    .process-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .process-page .top {
+      background: rgba(255, 255, 255, .96);
+      border-color: #e5e7eb
+    }
+
+    .process-page .brand,
+    .process-page .navlinks a {
+      color: #111827
+    }
+
+    .process-line {
+      border-color: #111827
+    }
+
+    .process-item {
+      border-color: #d1d5db
+    }
+
+    .process-item p {
+      color: #667085
+    }
+
+    .process-bottom {
+      background: #111827;
+      color: #fff
+    }
+
+    .process-bottom p {
+      color: #d0d5dd
+    }
+
+    .reels-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .reels-page .top {
+      background: rgba(255, 255, 255, .96);
+      border-color: #e5e7eb
+    }
+
+    .reels-page .brand,
+    .reels-page .navlinks a {
+      color: #111827
+    }
+
+    .reel-card {
+      background: #fff;
+      border-color: #e5e7eb;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, .05);
+      border-radius: 14px;
+      overflow: hidden
+    }
+
+    .reels-bottom {
+      background: #f4f6f8
+    }
+
+    .reels-bottom p {
+      color: #667085
+    }
+
+    .about-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .about-hero {
+      background: #fff
+    }
+
+    .manifesto {
+      border-color: #e5e7eb
+    }
+
+    .about-grid {
+      background: #e5e7eb
+    }
+
+    .about-card {
+      background: #fff
+    }
+
+    .about-card p {
+      color: #667085
+    }
+
+    .about-origin {
+      background: #fff
+    }
+
+    .about-origin p {
+      color: #667085
+    }
+
+    .contact-page {
+      background: #fff;
+      color: #111827
+    }
+
+    .contact-panel {
+      background: #fff;
+      box-shadow: 0 20px 70px rgba(15, 23, 42, .08);
+      border: 1px solid #e5e7eb
+    }
+
+    .contact-left {
+      background: #111827
+    }
+
+    .contact-right {
+      background: #fff
+    }
+
+    .contact-note {
+      background: #f4f6f8;
+      color: #667085
+    }
+
+    .form label {
+      color: #667085
+    }
+
+    .form input,
+    .form select,
+    .form textarea {
+      border-color: #d1d5db
+    }
+
+    .form button {
+      background: #1677ff;
+      color: #fff
+    }
+
+    /* Banner y foto de perfil exclusivamente en Inicio */
+    .site-page:not(#page-index) .cover-banner,
+    .site-page:not(#page-index) .profile {
+      display: none !important
+    }
+
+    .site-page:not(#page-index) .brand img {
+      display: none !important
+    }
+
+
+    /* =====================================================
+   AJUSTE SOLICITADO POR EL CLIENTE
+   PARTE SUPERIOR BLANCA + DEGRADADO + CONTENIDO NEGRO
+   Conserva la estructura, textos e imágenes originales.
+===================================================== */
+    :root {
+      --bg: #080808;
+      --surface: #101010;
+      --surface2: #151515;
+      --text: #f5f5f5;
+      --muted: #a9a9a9;
+      --line: #292929;
+      --paper: #ffffff;
+      --ink: #111111;
+    }
+
+    /* Barra de navegación blanca */
+    .top {
+      background: rgba(255, 255, 255, .97) !important;
+      color: #111 !important;
+      border-bottom: 1px solid #e8e8e8 !important;
+      backdrop-filter: blur(12px);
+    }
+
+    .top .brand,
+    .top .navlinks a,
+    .top .navlinks a:hover,
+    .top .navlinks .active {
+      color: #111 !important;
+    }
+
+    .top .navlinks a {
+      opacity: .78
+    }
+
+    .top .navlinks a:hover,
+    .top .navlinks .active {
+      opacity: 1
+    }
+
+    .top .btn:not(.blue) {
+      color: #111 !important;
+      background: #fff !important;
+      border-color: #d0d0d0 !important;
+    }
+
+    /* Banner y perfil sobre fondo blanco */
+    .cover-banner {
+      background: #fff !important;
+      color: #111 !important;
+    }
+
+    .cover-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 620px;
+      object-fit: cover;
+      background: #fff;
+    }
+
+    .profile {
+      position: relative;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: #fff !important;
+      color: #111 !important;
+      text-align: center;
+    }
+
+    .profile>.wrap {
+      padding-top: 0;
+      padding-bottom: 34px;
+    }
+
+    .profile .avatar {
+      border-color: #fff !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .16) !important;
+    }
+
+    .profile .profile-name {
+      color: #111 !important
+    }
+
+    .profile .profile-sub {
+      color: #555 !important
+    }
+
+    .profile .verified {
+      background: #111 !important;
+      color: #fff !important;
+    }
+
+    .profile .chip {
+      border-color: #d8d8d8 !important;
+      color: #333 !important;
+      background: #fff !important;
+    }
+
+    .profile .btn:not(.blue) {
+      color: #111 !important;
+      background: #fff !important;
+      border-color: #cfcfcf !important;
+    }
+
+    /* Degradado continuo desde la zona blanca al contenido negro */
+    .profile::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 190px;
+      margin: 0;
+      background: linear-gradient(to bottom,
+          #fff 0%,
+          #f7f7f7 12%,
+          #dedede 28%,
+          #b4b4b4 43%,
+          #777 60%,
+          #393939 79%,
+          #080808 100%);
+      pointer-events: none;
+    }
+
+    /* El contenido posterior al degradado comienza en negro */
+    #page-index .home-hero,
+    #page-index>.section,
+    #page-index .section.alt,
+    #page-index .footer,
+    #page-categorias .cat-intro,
+    #page-categorias>.section,
+    #page-proyectos .project-index,
+    #page-proceso .process-hero,
+    #page-reels .reels-hero,
+    #page-nosotros .about-hero,
+    #page-contacto .contact-hero {
+      color: var(--text);
+    }
+
+    #page-index .home-hero {
+      background: #080808 !important;
+    }
+
+    #page-index .home-hero:before {
+      background: linear-gradient(90deg, rgba(0, 0, 0, .94), rgba(0, 0, 0, .60), rgba(0, 0, 0, .82)), url('assets/banner-atrium-craft.png') center/cover no-repeat !important;
+    }
+
+    #page-index .section,
+    #page-index .section.alt,
+    #page-index .deep,
+    #page-index .footer,
+    #page-categorias .cat-intro,
+    #page-categorias .section,
+    #page-proyectos .project-index,
+    #page-proyectos .project-essay {
+      background-color: #080808;
+    }
+
+    #page-index .card,
+    #page-index .quote,
+    #page-categorias .cat-card {
+      background: #101010;
+      border-color: #292929;
+    }
+
+    #page-index .lead,
+    #page-index .prose p,
+    #page-index .muted,
+    #page-categorias .lead,
+    #page-categorias .cat-card p {
+      color: #bdbdbd;
+    }
+
+    #page-index .statbar,
+    #page-index .stat {
+      border-color: #292929;
+    }
+
+    /* En pantallas pequeñas se conserva el mismo orden de colores */
+    @media(max-width:700px) {
+      .profile::after {
+        height: 145px
+      }
+
+      .profile>.wrap {
+        padding-bottom: 28px
+      }
+
+      .top .navlinks a {
+        color: #111 !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section id="page-index" class="site-page active">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="active" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section class="home-hero">
+      <div class="wrap home-inner">
+        <div class="kicker">ATRIUM CRAFT / CONSTRUCCIÓN Y CREATIVIDAD</div>
+        <h1>Transformamos espacios en historias que vale la pena ver.</h1>
+        <p class="lead">Atrium Craft reúne construcción, transformación, diseño y contenido visual en un mismo lugar.
+          Esta portada funciona como entrada a un sitio mucho más amplio: cada apartado importante abre un archivo HTML
+          independiente, con su propia estructura, sus propios textos y su propio recorrido.</p>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CATEGORÍAS</a><a
+            class="btn dark" href="#page-proyectos">VER PROYECTOS</a></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">BIENVENIDOS</div>
+          <h2>Un sitio construido alrededor del cambio.</h2>
+          <p class="lead">Una obra comienza mucho antes del resultado: preparación, movimiento, materiales, decisiones y
+            detalles. Aquí ese recorrido puede descubrirse con calma.</p>
+        </div>
+        <div class="statbar">
+          <div class="stat"><strong>01</strong><span>Proyectos</span></div>
+          <div class="stat"><strong>02</strong><span>Categorías</span></div>
+          <div class="stat"><strong>03</strong><span>Reels</span></div>
+          <div class="stat"><strong>04</strong><span>Páginas independientes</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="section alt">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">CONTENIDO</div>
+          <h2>Explora Atrium Craft por categorías.</h2>
+          <p class="lead">La web no inventa series. Organiza el contenido por el tipo de proyecto que representa para
+            que cada página pueda contar su propia historia.</p>
+        </div>
+        <div class="category-grid"><a class="card" href="#page-construccion">
+            <div class="card-body">
+              <div style="font-size:34px">🏗️</div>
+              <div class="kicker" style="margin-top:10px">CATEGORÍA</div>
+              <h3>Construcción</h3>
+              <p class="muted">Excavaciones, estructuras, accesos y obras que cambian un espacio.</p>
+            </div>
+          </a><a class="card" href="#page-exteriores">
+            <div class="card-body">
+              <div style="font-size:34px">🌿</div>
+              <div class="kicker" style="margin-top:10px">CATEGORÍA</div>
+              <h3>Diseño de exteriores</h3>
+              <p class="muted">Jardines, piscinas, caminos, patios y paisajismo.</p>
+            </div>
+          </a><a class="card" href="#page-casas-espacios">
+            <div class="card-body">
+              <div style="font-size:34px">🏠</div>
+              <div class="kicker" style="margin-top:10px">CATEGORÍA</div>
+              <h3>Casas y espacios</h3>
+              <p class="muted">Viviendas, interiores, habitaciones, entradas y espacios terminados.</p>
+            </div>
+          </a><a class="card" href="#page-lugares-extremos">
+            <div class="card-body">
+              <div style="font-size:34px">🪨</div>
+              <div class="kicker" style="margin-top:10px">CATEGORÍA</div>
+              <h3>Construcciones en lugares extremos</h3>
+              <p class="muted">Propuestas visuales en montañas, roca, hielo, cuevas y desierto.</p>
+            </div>
+          </a><a class="card" href="#page-transformaciones">
+            <div class="card-body">
+              <div style="font-size:34px">🔄</div>
+              <div class="kicker" style="margin-top:10px">CATEGORÍA</div>
+              <h3>Transformaciones</h3>
+              <p class="muted">Publicaciones donde el cambio del espacio es el protagonista.</p>
+            </div>
+          </a><a class="card" href="#page-ideas-creativas">
+            <div class="card-body">
+              <div style="font-size:34px">🛠️</div>
+              <div class="kicker" style="margin-top:10px">CATEGORÍA</div>
+              <h3>Ideas y proyectos creativos</h3>
+              <p class="muted">Contenedores, materiales, estructuras y soluciones poco convencionales.</p>
+            </div>
+          </a></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <h2>La página principal es una puerta, no un cajón.</h2>
+        <p>Por eso el contenido más profundo vive en páginas propias. Proyectos funciona como portafolio; Proceso
+          explica el recorrido constructivo; Reels concentra el archivo audiovisual; Nosotros desarrolla la identidad de
+          Atrium Craft; Contacto está pensado para colaboraciones.</p>
+        <h2>Una biblioteca que puede crecer.</h2>
+        <p>El sitio puede incorporar nuevos proyectos, nuevos videos, más fotografías y nuevas historias sin convertir
+          todo en una sola página interminable. Cada nueva sección puede tener su propio diseño y, al mismo tiempo,
+          conservar la identidad visual del perfil.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">LA MIRADA ATRIUM CRAFT</div>
+          <h2>Construir también es observar.</h2>
+          <p class="lead">Una estructura no se entiende únicamente por su resultado final. También habla el terreno,
+            habla la elección de los materiales, habla la manera en que una entrada recibe la luz y habla la relación
+            entre una pieza pequeña y el espacio que la rodea.</p>
+        </div>
+        <div class="prose">
+          <p>En Atrium Craft, el interés está en mostrar ese conjunto. Por eso la página principal no se limita a
+            presentar una colección de videos. Funciona como un punto de encuentro entre obra, diseño y narración
+            visual. Una excavación puede despertar la misma curiosidad que una habitación terminada; una puerta puede
+            convertirse en el detalle que define una entrada; una transformación puede contar una historia completa sin
+            necesidad de explicarla con demasiadas palabras.</p>
+          <p>La construcción tiene una dimensión técnica, pero también tiene una dimensión visual. Las proporciones, los
+            recorridos, las texturas, los materiales y el contexto cambian la manera en que percibimos un espacio. Esa
+            combinación es la que hace que cada proyecto resulte interesante incluso antes de conocer todos sus datos.
+          </p>
+          <p>Esta mirada también permite que el contenido sea útil para personas con intereses distintos. Alguien puede
+            llegar buscando una idea para una casa, otra persona puede detenerse en una solución de exterior y otra
+            puede simplemente disfrutar del proceso de transformación. El sitio reúne esas posibilidades sin mezclarlas
+            de manera confusa.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section alt">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">QUÉ PUEDES ENCONTRAR</div>
+          <h2>Un archivo pensado para descubrir, comparar e inspirarse.</h2>
+          <p class="lead">Cada visita puede comenzar en un lugar diferente. La idea es que el recorrido sea claro y que
+            siempre exista una siguiente página que aporte algo nuevo.</p>
+        </div>
+        <div class="category-grid">
+          <div class="card">
+            <div class="card-body">
+              <div class="kicker">01 / OBSERVAR</div>
+              <h3>Detalles que normalmente pasan desapercibidos</h3>
+              <p class="muted">Acabados, uniones, accesos, materiales y pequeñas decisiones que ayudan a entender por
+                qué un espacio se siente completo.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="kicker">02 / COMPARAR</div>
+              <h3>Antes, durante y después</h3>
+              <p class="muted">Las transformaciones adquieren sentido cuando se puede reconocer el punto de partida y
+                apreciar cada cambio de forma progresiva.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="kicker">03 / DESCUBRIR</div>
+              <h3>Proyectos fuera de lo convencional</h3>
+              <p class="muted">Espacios excavados, módulos, exteriores y propuestas creativas que exploran otras maneras
+                de construir y habitar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <h2>El valor está también en el proceso.</h2>
+        <p>Cuando un proyecto se muestra únicamente terminado, desaparece una parte importante de la historia. Antes de
+          una superficie limpia hay preparación; antes de una estructura hay decisiones; antes de un ambiente terminado
+          existe una secuencia de pasos que cambia constantemente. Mostrar ese recorrido permite entender mejor el
+          trabajo que existe detrás de una imagen final.</p>
+        <p>Por eso Atrium Craft dedica un espacio específico al proceso. Allí se puede seguir una obra como una
+          secuencia: el terreno inicial, la intervención, la aparición de nuevas formas, la instalación de elementos,
+          los acabados y finalmente la integración de todo el conjunto. No se trata solo de hacer que el contenido sea
+          más largo, sino de conservar el contexto que hace que cada transformación tenga significado.</p>
+        <p>También existe una razón visual. Las etapas intermedias suelen contener imágenes muy diferentes entre sí. Un
+          espacio vacío puede verse áspero y técnico; unas escenas después aparecen materiales, líneas, sombras y
+          proporciones; al final, el mismo lugar adquiere una identidad completamente distinta. Esa evolución es una de
+          las historias más fuertes que puede contar una construcción.</p>
+        <h2>De la pantalla al proyecto.</h2>
+        <p>Las ideas que aparecen en un reel no tienen por qué quedarse dentro del formato corto. Una imagen puede
+          convertirse en referencia para un concepto exterior, una solución espacial puede abrir una conversación sobre
+          materiales y una transformación puede servir como punto de partida para imaginar otro proyecto. La web amplía
+          ese contexto y permite mirar con más atención.</p>
+        <p>Así, el sitio funciona como una biblioteca visual: los reels atraen por la transformación, las categorías
+          ayudan a encontrar temas concretos, los proyectos profundizan en obras seleccionadas y las páginas de proceso
+          explican la secuencia detrás de cada resultado. Todo mantiene una misma identidad sin obligar al visitante a
+          leer siempre el mismo tipo de página.</p>
+      </div>
+    </section>
+    <section class="section alt">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">UNA MARCA QUE CRECE</div>
+          <h2>Más contenido, más contexto, una identidad constante.</h2>
+          <p class="lead">Atrium Craft está pensado para seguir creciendo con nuevas publicaciones, nuevos proyectos y
+            nuevas formas de contar lo que ocurre en una obra.</p>
+        </div>
+        <div class="prose">
+          <p>A medida que se incorporen nuevos trabajos, la web puede ampliar su biblioteca sin perder claridad. Un
+            nuevo proyecto puede tener su propia página; una nueva transformación puede entrar en su categoría
+            correspondiente; un conjunto de reels puede formar parte del archivo audiovisual; y una colaboración puede
+            tener un recorrido específico. La estructura está pensada para que el contenido se expanda sin que la página
+            principal tenga que cargar con todo al mismo tiempo.</p>
+          <p>La portada, por su parte, mantiene su papel de bienvenida. El banner y la fotografía de perfil identifican
+            inmediatamente la marca y sitúan al visitante dentro del universo visual de Atrium Craft. Debajo, el texto
+            ofrece contexto: qué representa el sitio, qué tipo de contenido reúne y por qué vale la pena seguir
+            explorándolo. Después aparecen las categorías y las rutas hacia el resto del contenido.</p>
+          <p>El objetivo es sencillo: que una persona que llega por primera vez pueda entender rápidamente qué es Atrium
+            Craft, pero también que alguien que ya conoce el contenido encuentre motivos para quedarse, recorrer otras
+            páginas y descubrir proyectos que quizá no había visto antes.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">PUNTO DE PARTIDA</div>
+          <h2>Empieza por una categoría. Quédate por la historia.</h2>
+          <p class="lead">Explora una obra, observa sus detalles, compara transformaciones y continúa hacia el proceso
+            para entender todo lo que ocurre antes del resultado.</p>
+        </div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">ENTRAR A CATEGORÍAS</a><a
+            class="btn dark" href="#page-proyectos">DESCUBRIR PROYECTOS</a><a class="btn" href="#page-reels">VER
+            REELS</a></div>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-categorias" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section class="cat-intro">
+      <div class="wrap">
+        <div class="kicker">CONTENIDO ATRIUM CRAFT</div>
+        <h1>Explora por tipo de contenido.</h1>
+        <p class="lead">Cada tarjeta abre una página diferente. La navegación termina en un documento HTML propio y no
+          en una sección oculta de la misma página.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <div class="cat-cards">
+          <a class="cat-card" href="#page-construccion">
+            <div>
+              <div class="icon">🏗️</div>
+              <div class="kicker">01 / OBRA</div>
+              <h2>Construcción</h2>
+              <p>Excavaciones, muros, estructuras, accesos y soluciones donde el movimiento físico del espacio es
+                protagonista.</p>
+            </div><span class="btn">ABRIR PÁGINA →</span>
+          </a>
+          <a class="cat-card" href="#page-exteriores">
+            <div>
+              <div class="icon">🌿</div>
+              <div class="kicker">02 / PAISAJE</div>
+              <h2>Diseño de exteriores</h2>
+              <p>Patios, jardines, caminos, agua, vegetación y piezas arquitectónicas que conectan la construcción con
+                el entorno.</p>
+            </div><span class="btn">ABRIR PÁGINA →</span>
+          </a>
+          <a class="cat-card" href="#page-casas-espacios">
+            <div>
+              <div class="icon">🏠</div>
+              <div class="kicker">03 / HABITAR</div>
+              <h2>Casas y espacios</h2>
+              <p>Interiores, habitaciones, entradas y viviendas completas, entendidas desde la distribución, los
+                materiales y los detalles.</p>
+            </div><span class="btn">ABRIR PÁGINA →</span>
+          </a>
+          <a class="cat-card" href="#page-lugares-extremos">
+            <div>
+              <div class="icon">🪨</div>
+              <div class="kicker">04 / TERRITORIO</div>
+              <h2>Lugares extremos</h2>
+              <p>Construcciones imaginadas para montañas, roca, hielo, desierto, cuevas y territorios donde el entorno
+                define el proyecto.</p>
+            </div><span class="btn">ABRIR PÁGINA →</span>
+          </a>
+          <a class="cat-card" href="#page-transformaciones">
+            <div>
+              <div class="icon">🔄</div>
+              <div class="kicker">05 / CAMBIO</div>
+              <h2>Transformaciones</h2>
+              <p>El antes y el después como narrativa: retirar, preparar, construir, terminar y revelar el resultado.
+              </p>
+            </div><span class="btn">ABRIR PÁGINA →</span>
+          </a>
+          <a class="cat-card" href="#page-ideas-creativas">
+            <div>
+              <div class="icon">🛠️</div>
+              <div class="kicker">06 / EXPERIMENTO</div>
+              <h2>Ideas y proyectos creativos</h2>
+              <p>Propuestas con materiales y recursos poco convencionales, donde la creatividad cambia la forma de
+                resolver un espacio.</p>
+            </div><span class="btn">ABRIR PÁGINA →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section class="section alt">
+      <div class="wrap prose">
+        <div class="kicker">POR QUÉ ESTA ORGANIZACIÓN</div>
+        <h2>Una página para cada lenguaje.</h2>
+        <p>La construcción se cuenta de una manera, un exterior de otra y una transformación necesita otra secuencia.
+          Separar los temas permite escribir textos más completos, mostrar más imágenes y crear una navegación más
+          clara.</p>
+        <p>También ayuda a que el sitio pueda crecer sin perder orden: nuevos proyectos pueden entrar en Proyectos,
+          nuevas publicaciones en Reels y nuevas historias dentro de sus categorías respectivas.</p>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-construccion" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="construction-page">
+      <section class="blueprint">
+        <div class="wrap blueprint-grid">
+          <div>
+            <div class="kicker">CATEGORÍA 01 / CONSTRUCCIÓN</div>
+            <h1>Obra, estructura y movimiento.</h1>
+            <p style="font-size:19px;color:#4d545a;max-width:720px">La construcción no es solo el resultado que aparece
+              en pantalla. También es el orden de las operaciones: preparar, medir, excavar, levantar, fijar, revestir y
+              terminar. Esta página reúne esa mirada y explica por qué cada acción debe ocurrir en el momento adecuado.
+            </p>
+            <p style="font-size:17px;color:#596067;max-width:720px">En Atrium Craft, el interés está en la
+              transformación visible. Un terreno vacío puede convertirse en una estructura; una pared puede desaparecer
+              para abrir un acceso; un espacio áspero puede terminar convertido en una habitación completa.</p>
+          </div>
+          <div class="specs">
+            <div class="kicker" style="color:#111">FICHA DE LECTURA</div>
+            <div class="spec-row"><span>ENFOQUE</span><span>SECUENCIA</span></div>
+            <div class="spec-row"><span>MATERIALES</span><span>VISIBLE</span></div>
+            <div class="spec-row"><span>DETALLE</span><span>ALTO</span></div>
+            <div class="spec-row"><span>RESULTADO</span><span>TRANSFORMACIÓN</span></div>
+            <div style="margin-top:30px">
+              <p style="color:#555;font-size:14px">Esta categoría sirve para entender cómo el cambio físico del espacio
+                también puede convertirse en una historia visual. Cada proyecto puede desarrollar aquí su contexto, su
+                proceso y su resultado.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="field">
+        <div class="wrap field-grid">
+          <div><img data-asset="reel-34.jpg" alt="Construcción Atrium Craft">
+            <p class="muted" style="margin-top:15px">La imagen funciona como punto de partida para hablar de materiales,
+              mano de obra y decisiones constructivas.</p>
+          </div>
+          <div class="field-notes">
+            <article class="field-note"><strong>01 / PREPARAR</strong>
+              <h3>Antes de levantar algo, el espacio tiene que estar listo.</h3>
+              <p>La limpieza, el replanteo, la nivelación y el acceso de materiales determinan la comodidad con la que
+                después se puede construir.</p>
+            </article>
+            <article class="field-note"><strong>02 / EJECUTAR</strong>
+              <h3>Una estructura se construye en una secuencia.</h3>
+              <p>Cuando las acciones se muestran una por una, el espectador entiende el proyecto: qué cambió primero,
+                qué elemento apareció después y qué pieza cerró el conjunto.</p>
+            </article>
+            <article class="field-note"><strong>03 / TERMINAR</strong>
+              <h3>Los acabados no son un detalle secundario.</h3>
+              <p>Son los que convierten una obra funcional en un espacio que tiene carácter. Madera, pintura,
+                iluminación y textura hacen legible el resultado.</p>
+            </article>
+            <article class="field-note"><strong>04 / DOCUMENTAR</strong>
+              <h3>El video conserva la transformación.</h3>
+              <p>La cámara permite comparar estados, mostrar escalas y dejar registrado un recorrido que de otro modo
+                desaparecería al terminar la obra.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section deep">
+        <div class="wrap prose">
+          <div class="kicker">LECTURA DE LA OBRA</div>
+          <h2>Construir también es tomar decisiones.</h2>
+          <p>Cada proyecto tiene restricciones: espacio disponible, acceso, proporciones, materiales, entorno y objetivo
+            final. La solución interesante no siempre es la más grande. Muchas veces es la que utiliza mejor lo que ya
+            existe.</p>
+          <p>Por eso esta categoría habla tanto de técnica como de criterio. El valor está en ver cómo pequeñas
+            decisiones producen cambios grandes: un nuevo acceso, una estructura ligera, una escalera mejor ubicada o un
+            acabado que ordena todo el interior.</p>
+          <p>En futuras publicaciones esta página puede crecer con fichas de proyectos, fotografías de etapas y enlaces
+            directos a los Reels correspondientes.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-exteriores" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="outdoors-page">
+      <section class="outdoor-hero">
+        <div class="outdoor-hero-copy">
+          <div class="kicker">CATEGORÍA 02 / DISEÑO DE EXTERIORES</div>
+          <h1>Cuando la obra también pertenece al paisaje.</h1>
+          <p class="lead">El exterior no es simplemente un espacio que rodea una construcción. Es una segunda
+            arquitectura: define cómo se llega, cómo se mira, cómo circula el cuerpo y cómo entra la luz.</p>
+          <p class="muted">Atrium Craft explora jardines, agua, caminos, patios, plataformas y pequeños elementos que
+            pueden cambiar por completo la lectura de un lugar.</p><a class="btn blue" href="#page-reels">VER REELS DE
+            EXTERIORES →</a>
+        </div><img data-asset="reel-26.jpg" alt="Diseño de exteriores">
+      </section>
+      <section class="green-grid">
+        <article class="green-item">
+          <div class="kicker">01</div>
+          <h3>Recorrido</h3>
+          <p>Un camino bien pensado crea una secuencia. Hace que el visitante descubra el espacio en vez de verlo todo
+            de golpe.</p>
+        </article>
+        <article class="green-item">
+          <div class="kicker">02</div>
+          <h3>Vegetación</h3>
+          <p>Las plantas pueden funcionar como borde, fondo, filtro visual o contraste con materiales duros como piedra
+            y concreto.</p>
+        </article>
+        <article class="green-item">
+          <div class="kicker">03</div>
+          <h3>Agua</h3>
+          <p>Una piscina, una fuente o una superficie reflectante introducen movimiento y cambian la percepción de la
+            luz durante el día.</p>
+        </article>
+        <article class="green-item">
+          <div class="kicker">04</div>
+          <h3>Materia</h3>
+          <p>Madera, piedra y concreto crean distintas sensaciones de temperatura, peso y permanencia.</p>
+        </article>
+      </section>
+      <section class="outdoor-story">
+        <div class="wrap story">
+          <div>
+            <div class="kicker">UNA MIRADA MÁS LENTA</div>
+            <h2>El paisaje también se diseña.</h2>
+          </div>
+          <div>
+            <p class="lead">Una buena propuesta exterior no necesita llenar cada metro. Necesita definir relaciones: una
+              superficie que conduce hacia otra, un árbol que enmarca una vista, una plataforma que crea un lugar para
+              detenerse o una pieza de agua que organiza el conjunto.</p>
+            <p class="muted" style="font-size:17px">Esta página está pensada como archivo editorial para esas
+              decisiones. Aquí las ideas pueden acompañarse con imágenes, explicaciones sobre materiales y referencias a
+              videos donde el cambio se vea paso a paso.</p>
+            <p class="muted" style="font-size:17px">El resultado es un lenguaje diferente al de una obra estructural. En
+              exteriores importan tanto la construcción como la relación con el entorno. Por eso el contenido necesita
+              su propio espacio y su propia narrativa.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-casas-espacios" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="houses-page">
+      <section class="paper-hero">
+        <div class="wrap">
+          <div class="paper-columns">
+            <div>
+              <div class="kicker">CATEGORÍA 03 / CASAS Y ESPACIOS</div>
+              <h1>Diseñar cómo se vive un espacio.</h1>
+              <p>Una casa no se define solamente por su fachada. También se reconoce por cómo entra la luz, cómo se
+                conectan las habitaciones, dónde aparece la madera, qué textura tiene una pared y qué sucede cuando una
+                persona cruza una puerta.</p>
+              <p>Esta página reúne el lado más habitable de Atrium Craft: interiores, habitaciones, accesos y espacios
+                terminados. El objetivo es explicar la experiencia, no solamente describir objetos.</p>
+            </div>
+            <div>
+              <p>Los cambios más interesantes suelen aparecer cuando una habitación gana orden, profundidad o
+                personalidad sin perder funcionalidad. Un techo, una alfombra, una pared limpia o una cama correctamente
+                situada pueden cambiar la lectura completa de un espacio.</p>
+              <p>Por eso cada proyecto merece una explicación extensa: qué había al principio, qué se decidió conservar,
+                qué se añadió y cómo los detalles construyen la atmósfera final.</p>
+            </div>
+          </div>
+          <div class="paper-photo"><img data-asset="reel-31.jpg" alt="Espacio terminado Atrium Craft"></div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="wrap">
+          <div class="kicker">LECTURA DEL INTERIOR</div>
+          <h2>Lo que hace que una habitación se sienta completa.</h2>
+          <div class="room-grid">
+            <article class="room big">
+              <h3>Proporción</h3>
+              <p>La distribución define cuánto aire parece tener una habitación. Cuando los elementos están bien
+                ubicados, incluso un espacio pequeño puede sentirse claro y ordenado.</p>
+            </article>
+            <article class="room">
+              <h3>Luz</h3>
+              <p>La luz natural y artificial revelan texturas y cambian la percepción de los materiales.</p>
+            </article>
+            <article class="room">
+              <h3>Material</h3>
+              <p>Madera, concreto, piedra, textiles y pintura crean contrastes que hacen legible cada superficie.</p>
+            </article>
+            <article class="room big">
+              <h3>Mobiliario</h3>
+              <p>Amoblar no es simplemente colocar objetos. Es decidir recorridos, puntos de atención y relaciones entre
+                cada elemento del espacio.</p>
+            </article>
+            <article class="room">
+              <h3>Acceso</h3>
+              <p>Una puerta puede convertirse en el primer gesto de identidad del interior.</p>
+            </article>
+            <article class="room">
+              <h3>Detalle</h3>
+              <p>Los pequeños acabados son los que finalmente hacen que un ambiente deje de sentirse genérico.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section style="background:#17191a;color:white;padding:95px 0">
+        <div class="wrap prose">
+          <div class="kicker">CONCLUSIÓN</div>
+          <h2>Una casa se recuerda por cómo se siente.</h2>
+          <p>La construcción ofrece estructura. El diseño interior añade lectura. Cuando ambas partes están coordinadas,
+            el espacio parece inevitable: cada elemento ocupa su lugar y el conjunto funciona como una sola pieza.</p>
+          <p>Esta página puede crecer con habitaciones específicas, antes y después, materiales y proyectos completos.
+            Así el sitio de Atrium Craft se convierte también en un archivo de espacios y no solamente de obras.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-lugares-extremos" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="extreme-page">
+      <section class="extreme-hero">
+        <div class="wrap extreme-copy">
+          <div class="extreme-label">CATEGORÍA 04 / CONSTRUCCIONES EN LUGARES EXTREMOS</div>
+          <h1>Cuando el terreno obliga a pensar diferente.</h1>
+          <p class="lead">Montañas, roca, desierto, hielo y cuevas plantean una pregunta distinta: ¿cómo puede una
+            construcción adaptarse al lugar sin desaparecer dentro de él?</p>
+          <p class="muted">En este archivo, la dificultad del entorno forma parte del proyecto. El paisaje deja de ser
+            fondo y se convierte en una de las variables principales del diseño.</p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="wrap">
+          <div class="extreme-log">
+            <article>
+              <div class="kicker">01 / TERRENO</div>
+              <h3>Leer antes de construir.</h3>
+              <p>La pendiente, la roca y la exposición determinan acceso, estabilidad, vistas y formas posibles de
+                implantación.</p>
+            </article>
+            <article>
+              <div class="kicker">02 / REFUGIO</div>
+              <h3>Proteger sin aislar.</h3>
+              <p>La envolvente debe responder al clima, al viento y a la temperatura sin perder la relación con el
+                entorno.</p>
+            </article>
+            <article>
+              <div class="kicker">03 / EXPERIENCIA</div>
+              <h3>El lugar es parte del relato.</h3>
+              <p>Un proyecto extremo puede convertirse en una historia visual precisamente porque el territorio impone
+                condiciones que el espectador reconoce.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="extreme-text">
+        <div class="wrap">
+          <p class="manifest">Construir en un lugar extremo significa aceptar que el entorno no se puede editar. La
+            arquitectura tiene que conversar con la roca, negociar con la pendiente, encontrar sombra donde casi no
+            existe y convertir las limitaciones en decisiones de diseño.</p>
+          <div class="prose" style="margin-top:55px">
+            <p>Este apartado es ideal para desarrollar conceptualmente las publicaciones más extraordinarias de Atrium
+              Craft. En lugar de una galería rápida, aquí cada propuesta puede acompañarse de una explicación larga
+              sobre el terreno, el clima, la estrategia de acceso, la elección de materiales y la relación entre el
+              proyecto y el paisaje.</p>
+            <p>También permite conectar con los videos. Una construcción imaginada en una montaña puede mostrarse
+              primero como idea, después como secuencia de obra y finalmente como resultado. La página conserva ese
+              contexto alrededor del contenido audiovisual.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-transformaciones" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="transform-page">
+      <section class="trans-title">
+        <div class="wrap">
+          <div class="kicker">CATEGORÍA 05 / TRANSFORMACIONES</div>
+          <h1>Ver el cambio, no solamente el resultado.</h1>
+          <p style="max-width:860px;font-size:19px;color:#5c6267">Esta categoría nace de una idea sencilla: el antes y
+            el después son más interesantes cuando se entiende el camino que los conecta.</p>
+        </div>
+      </section>
+      <section class="wrap">
+        <div class="before-after">
+          <div class="ba"><img data-asset="reel-01.jpg" alt="Antes de la transformación"><span>ANTES</span></div>
+          <div class="ba"><img data-asset="reel-19.jpg" alt="Después de la transformación"><span>DESPUÉS</span></div>
+        </div>
+      </section>
+      <section class="wrap trans-copy">
+        <div class="kicker">LA NARRATIVA DEL CAMBIO</div>
+        <h2>Una transformación tiene cinco momentos.</h2>
+        <p>Primero aparece el problema o el estado original. Después llega la decisión de intervenir. Luego comienza el
+          trabajo visible: retirar, excavar, montar, pintar o instalar. Finalmente llegan los acabados y la comparación.
+        </p>
+        <p>Ese orden importa porque transforma una simple fotografía en una historia. El espectador no ve solo una
+          habitación bonita; entiende cuánto tuvo que cambiar para convertirse en lo que es.</p>
+      </section>
+      <section class="stages">
+        <article class="stage"><b>01</b>
+          <h3>Diagnóstico</h3>
+          <p>Entender qué existe y qué debe cambiar.</p>
+        </article>
+        <article class="stage"><b>02</b>
+          <h3>Preparación</h3>
+          <p>Dejar el espacio listo para trabajar.</p>
+        </article>
+        <article class="stage"><b>03</b>
+          <h3>Construcción</h3>
+          <p>Ejecutar la intervención principal.</p>
+        </article>
+        <article class="stage"><b>04</b>
+          <h3>Acabados</h3>
+          <p>Ordenar materiales, texturas y detalles.</p>
+        </article>
+        <article class="stage"><b>05</b>
+          <h3>Revelación</h3>
+          <p>Mostrar el resultado y comparar.</p>
+        </article>
+      </section>
+      <section class="section">
+        <div class="wrap prose">
+          <h2>Por qué estas historias funcionan.</h2>
+          <p>El cambio es una de las formas más claras de comunicar en contenido corto. Hay un estado inicial
+            reconocible, una serie de acciones que producen expectativa y un resultado que recompensa la atención. Esta
+            página extiende ese lenguaje y lo convierte en archivo.</p>
+          <p>Con cada nuevo proyecto, se puede añadir un antes, una selección de etapas y un después. El sitio podrá
+            convertirse en una colección de transformaciones navegables sin perder la claridad.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-ideas-creativas" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class="active"
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="ideas-page">
+      <section class="ideas-hero">
+        <div class="wrap">
+          <div class="kicker">CATEGORÍA 06 / IDEAS Y PROYECTOS CREATIVOS</div>
+          <h1>Las buenas ideas cambian las reglas del proyecto.</h1>
+          <p class="lead">No todo necesita seguir el camino convencional. A veces un contenedor, una pieza de madera,
+            una estructura reciclada o un objeto cotidiano puede convertirse en el punto de partida de una solución
+            completamente nueva.</p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="wrap">
+          <div class="ideas-board">
+            <article class="idea">
+              <div class="kicker">01 / REUTILIZAR</div>
+              <h3>Dar un segundo uso a una estructura.</h3>
+              <p>Una idea creativa puede comenzar preguntando qué elemento ya existente puede convertirse en parte
+                central del nuevo proyecto.</p>
+            </article>
+            <article class="idea">
+              <div class="kicker">02 / ESCALA</div>
+              <h3>Hacer algo simple, pero inesperado.</h3>
+              <p>El impacto no depende siempre del tamaño, sino de la relación entre una pieza y el espacio que la
+                rodea.</p>
+            </article>
+            <article class="idea">
+              <div class="kicker">03 / MATERIAL</div>
+              <h3>Dejar que el material sugiera la forma.</h3>
+              <p>Cuando se respeta la textura, el peso y la lógica constructiva de un material, aparecen soluciones que
+                una forma prediseñada no habría encontrado.</p>
+            </article>
+            <article class="idea">
+              <div class="kicker">04 / NARRATIVA</div>
+              <h3>Construir algo que también tenga historia.</h3>
+              <p>La creatividad aumenta cuando el proyecto no solo funciona, sino que permite contar cómo nació y por
+                qué tomó esa forma.</p>
+            </article>
+            <article class="idea">
+              <div class="kicker">05 / EXPERIMENTO</div>
+              <h3>Probar antes de repetir.</h3>
+              <p>Los conceptos poco convencionales necesitan espacio para ensayar y corregir.</p>
+            </article>
+            <article class="idea">
+              <div class="kicker">06 / CONTRASTE</div>
+              <h3>Combinar lo duro con lo cálido.</h3>
+              <p>Concreto y madera, metal y vegetación, piedra y luz: los contrastes ayudan a construir carácter.</p>
+            </article>
+            <article class="idea">
+              <div class="kicker">07 / SORPRESA</div>
+              <h3>Un detalle puede convertirse en el proyecto.</h3>
+              <p>Una entrada, una puerta, una fuente o un techo pueden terminar siendo el elemento que el público
+                recuerda.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="ideas-essay">
+        <div class="wrap" style="display:contents">
+          <div style="padding-left:4vw">
+            <div class="kicker">PENSAMIENTO CREATIVO</div>
+            <h2>No todas las soluciones nacen de un plano.</h2>
+          </div>
+          <div style="padding-right:7vw">
+            <p class="lead">Muchas veces nacen de observar. De mirar un material que ya existe, una forma interesante o
+              una limitación del espacio. El proyecto empieza cuando alguien decide que esa particularidad no es un
+              problema, sino una oportunidad.</p>
+            <p class="muted" style="font-size:17px">Atrium Craft puede usar esta página para documentar ideas
+              conceptuales, experimentos visuales y soluciones que después se conviertan en proyectos. El objetivo es
+              conservar el pensamiento detrás de la imagen.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyectos" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="projects-page">
+      <section class="project-index">
+        <div class="wrap">
+          <div class="kicker">ARCHIVO DE PROYECTOS</div>
+          <h1>Proyectos que merecen su propia historia.</h1>
+          <p class="lead">Esta página funciona como índice. Cada entrada puede llevar a una ficha independiente, con
+            imágenes, contexto, etapas y resultado.</p>
+          <div class="project-table"><a class="project-row" href="#page-proyecto-subterraneo">
+              <div class="project-no">01</div>
+              <div>
+                <div class="project-name">Interior excavado en roca</div>
+                <div class="project-meta">Construcción · espacio extremo</div>
+              </div><img data-asset="reel-31.jpg" alt="Interior excavado en roca">
+              <div class="project-meta hide-mobile">ABRIR →</div>
+            </a><a class="project-row" href="#page-proyecto-modular">
+              <div class="project-no">02</div>
+              <div>
+                <div class="project-name">Módulo de madera</div>
+                <div class="project-meta">Ideas · energía · exterior</div>
+              </div><img data-asset="reel-08.jpg" alt="Módulo de madera">
+              <div class="project-meta hide-mobile">ABRIR →</div>
+            </a><a class="project-row" href="#page-proyecto-habitacion">
+              <div class="project-no">03</div>
+              <div>
+                <div class="project-name">Habitación terminada</div>
+                <div class="project-meta">Casas y espacios · interior</div>
+              </div><img data-asset="reel-01.jpg" alt="Habitación">
+              <div class="project-meta hide-mobile">ABRIR →</div>
+            </a><a class="project-row" href="#page-proyecto-exterior">
+              <div class="project-no">04</div>
+              <div>
+                <div class="project-name">Fuente y elemento exterior</div>
+                <div class="project-meta">Exteriores · paisaje</div>
+              </div><img data-asset="reel-26.jpg" alt="Fuente exterior">
+              <div class="project-meta hide-mobile">ABRIR →</div>
+            </a><a class="project-row" href="#page-proyecto-detalles">
+              <div class="project-no">05</div>
+              <div>
+                <div class="project-name">Entrada y puerta artesanal</div>
+                <div class="project-meta">Detalles · madera</div>
+              </div><img data-asset="reel-19.jpg" alt="Puerta artesanal">
+              <div class="project-meta hide-mobile">ABRIR →</div>
+            </a><a class="project-row" href="#page-proyecto-construccion-cero">
+              <div class="project-no">06</div>
+              <div>
+                <div class="project-name">Construcción desde cero</div>
+                <div class="project-meta">Obra · secuencia</div>
+              </div><img data-asset="reel-34.jpg" alt="Construcción">
+              <div class="project-meta hide-mobile">ABRIR →</div>
+            </a></div>
+        </div>
+      </section>
+      <section class="project-essay">
+        <div class="wrap">
+          <div class="kicker">POR QUÉ UNA FICHA INDIVIDUAL</div>
+          <h2>Cada proyecto tiene un ritmo diferente.</h2>
+          <p>Una excavación puede necesitar más contexto técnico. Un interior necesita hablar de materiales y
+            distribución. Un exterior necesita explicar la relación con el paisaje. Un detalle puede necesitar solo una
+            mirada concentrada. Las páginas individuales permiten que el diseño acompañe la historia.</p>
+          <p>Por eso este índice no intenta contarlo todo en una misma pantalla. Sirve como punto de partida para entrar
+            en cada proyecto y recorrerlo con calma.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proceso" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class="active"
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="process-page">
+      <section class="process-intro">
+        <div class="wrap">
+          <div class="kicker">MÉTODO ATRIUM CRAFT</div>
+          <h1>El proceso se cuenta en orden.</h1>
+          <p style="max-width:900px;font-size:20px;color:#575d62">Una transformación visual funciona porque cada paso
+            prepara el siguiente. Esta página convierte esa lógica en un recorrido independiente para explicar cómo nace
+            una obra.</p>
+          <div class="process-line"></div>
+        </div>
+      </section>
+      <section class="wrap">
+        <div class="process-item">
+          <div class="process-num">01</div>
+          <div>
+            <div class="kicker" style="color:#111">PREPARACIÓN</div>
+            <h2>Dejar el lugar listo.</h2>
+          </div>
+          <div>
+            <p>Antes de construir, hay que despejar, medir, ordenar el acceso y entender el espacio. La preparación
+              parece invisible cuando el proyecto ya está terminado, pero determina buena parte de la velocidad y
+              precisión de lo que viene después.</p>
+            <p>En una secuencia audiovisual, esta etapa sirve para ubicar al espectador. Hace visible el punto de
+              partida y establece por qué el cambio será significativo.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">02</div>
+          <div>
+            <div class="kicker" style="color:#111">ESTRUCTURA</div>
+            <h2>Levantar lo que sostiene.</h2>
+          </div>
+          <div>
+            <p>Aparecen muros, vigas, plataformas, soportes, escaleras y otros elementos que definen el espacio. Aquí la
+              construcción deja de ser una intención y comienza a ser físicamente reconocible.</p>
+            <p>Mostrar la estructura permite que el público entienda el volumen antes de que lleguen los acabados.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">03</div>
+          <div>
+            <div class="kicker" style="color:#111">SUPERFICIES</div>
+            <h2>Ordenar la materia.</h2>
+          </div>
+          <div>
+            <p>Pintura, revestimientos, madera, pisos y techos cambian la lectura del conjunto. Una superficie continua
+              puede ampliar una habitación; una textura puede hacer que un elemento destaque.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">04</div>
+          <div>
+            <div class="kicker" style="color:#111">AMOBLAR</div>
+            <h2>Dar función al espacio.</h2>
+          </div>
+          <div>
+            <p>Los muebles no se agregan al final como decoración aislada. Organizan circulaciones, crean puntos de uso
+              y determinan escala. En los videos, este paso suele funcionar muy bien porque el espacio cambia de
+              inmediato.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">05</div>
+          <div>
+            <div class="kicker" style="color:#111">REVELAR</div>
+            <h2>Mostrar el resultado.</h2>
+          </div>
+          <div>
+            <p>La última etapa es la comparación. El objetivo no es solo enseñar algo terminado, sino hacer visible
+              cuánto se transformó desde el punto inicial.</p>
+          </div>
+        </div>
+      </section>
+      <section class="process-bottom">
+        <div class="wrap">
+          <div class="process-bottom grid2">
+            <div>
+              <div class="kicker">LECTURA FINAL</div>
+              <h2>El resultado importa. El recorrido también.</h2>
+            </div>
+            <div>
+              <p>Esta página puede ampliarse con métodos de trabajo, listas de etapas, fotografías y enlaces a cada
+                Reel. La idea es que quien llegue desde un video pueda comprender la lógica completa detrás de la
+                secuencia.</p>
+              <p>Así Proceso funciona como una pieza editorial propia del sitio, no como una sección repetida de la
+                página de inicio.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-reels" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="active" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="reels-page">
+      <section class="reels-title">
+        <div class="wrap">
+          <div class="reels-head">
+            <div>
+              <div class="kicker">ARCHIVO AUDIOVISUAL</div>
+              <div class="big">REELS</div>
+              <p style="max-width:760px;font-size:18px;color:#5e6265">Una página dedicada exclusivamente a las
+                publicaciones de video. Las miniaturas proceden de las capturas de Facebook que aportaste y cada tarjeta
+                lleva al perfil original.</p>
+            </div>
+            <div class="reels-count">80<span>Reels enlazados</span></div>
+          </div>
+        </div>
+      </section>
+      <section class="wrap">
+        <div class="reels-masonry">
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DbwR91RP1gP/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-01.jpg" alt="Reel Atrium Craft 1">
+              <div class="rcopy"><small>REEL 01 / INSTAGRAM</small>
+                <h3>Construcción y transformación</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcEG4eDxKAq/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-02.jpg" alt="Reel Atrium Craft 2">
+              <div class="rcopy"><small>REEL 02 / INSTAGRAM</small>
+                <h3>Casa en las montañas</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcEYERszlX-/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-03.jpg" alt="Reel Atrium Craft 3">
+              <div class="rcopy"><small>REEL 03 / INSTAGRAM</small>
+                <h3>Diseño exterior</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcL4sbRx5da/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-04.jpg" alt="Reel Atrium Craft 4">
+              <div class="rcopy"><small>REEL 04 / INSTAGRAM</small>
+                <h3>Puerta artesanal</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcMe0GEvP9H/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-05.jpg" alt="Reel Atrium Craft 5">
+              <div class="rcopy"><small>REEL 05 / INSTAGRAM</small>
+                <h3>Interior terminado</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcRCNgbxuwk/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-06.jpg" alt="Reel Atrium Craft 6">
+              <div class="rcopy"><small>REEL 06 / INSTAGRAM</small>
+                <h3>Módulo de madera</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcWLzL6Rvg3/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-07.jpg" alt="Reel Atrium Craft 7">
+              <div class="rcopy"><small>REEL 07 / INSTAGRAM</small>
+                <h3>Espacio en roca</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcbRYV1hQkL/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-08.jpg" alt="Reel Atrium Craft 8">
+              <div class="rcopy"><small>REEL 08 / INSTAGRAM</small>
+                <h3>Detalle constructivo</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcgoM8QPzOX/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-09.jpg" alt="Reel Atrium Craft 9">
+              <div class="rcopy"><small>REEL 09 / INSTAGRAM</small>
+                <h3>Obra y materiales</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcoGlI5RDYJ/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-10.jpg" alt="Reel Atrium Craft 10">
+              <div class="rcopy"><small>REEL 10 / INSTAGRAM</small>
+                <h3>Entrada de madera</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DcyZtCvxW2A/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-11.jpg" alt="Reel Atrium Craft 11">
+              <div class="rcopy"><small>REEL 11 / INSTAGRAM</small>
+                <h3>Proyecto exterior</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dc6IFNzhl9P/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-12.jpg" alt="Reel Atrium Craft 12">
+              <div class="rcopy"><small>REEL 12 / INSTAGRAM</small>
+                <h3>Secuencia de obra</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DdHAFaMBRp1/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-13.jpg" alt="Reel Atrium Craft 13">
+              <div class="rcopy"><small>REEL 13 / INSTAGRAM</small>
+                <h3>Construcción y transformación</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DdJk2DiBSFE/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-14.jpg" alt="Reel Atrium Craft 14">
+              <div class="rcopy"><small>REEL 14 / INSTAGRAM</small>
+                <h3>Casa en las montañas</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DdWdInBDRvI/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-15.jpg" alt="Reel Atrium Craft 15">
+              <div class="rcopy"><small>REEL 15 / INSTAGRAM</small>
+                <h3>Diseño exterior</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DdbmqsuDSDV/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-16.jpg" alt="Reel Atrium Craft 16">
+              <div class="rcopy"><small>REEL 16 / INSTAGRAM</small>
+                <h3>Puerta artesanal</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Ddl5qQTRk8Q/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-17.jpg" alt="Reel Atrium Craft 17">
+              <div class="rcopy"><small>REEL 17 / INSTAGRAM</small>
+                <h3>Interior terminado</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DdoeZUhRazx/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-18.jpg" alt="Reel Atrium Craft 18">
+              <div class="rcopy"><small>REEL 18 / INSTAGRAM</small>
+                <h3>Módulo de madera</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DdyxpD6xWM7/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-19.jpg" alt="Reel Atrium Craft 19">
+              <div class="rcopy"><small>REEL 19 / INSTAGRAM</small>
+                <h3>Espacio en roca</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dd37MhdRpjw/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-20.jpg" alt="Reel Atrium Craft 20">
+              <div class="rcopy"><small>REEL 20 / INSTAGRAM</small>
+                <h3>Detalle constructivo</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dd6gCFJxRI6/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-21.jpg" alt="Reel Atrium Craft 21">
+              <div class="rcopy"><small>REEL 21 / INSTAGRAM</small>
+                <h3>Obra y materiales</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DeEzL2cRBGm/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-22.jpg" alt="Reel Atrium Craft 22">
+              <div class="rcopy"><small>REEL 22 / INSTAGRAM</small>
+                <h3>Entrada de madera</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DeRrs0jPddX/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-23.jpg" alt="Reel Atrium Craft 23">
+              <div class="rcopy"><small>REEL 23 / INSTAGRAM</small>
+                <h3>Proyecto exterior</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DeUP5KFx0fT/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-24.jpg" alt="Reel Atrium Craft 24">
+              <div class="rcopy"><small>REEL 24 / INSTAGRAM</small>
+                <h3>Secuencia de obra</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DeZYvoUP80K/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-25.jpg" alt="Reel Atrium Craft 25">
+              <div class="rcopy"><small>REEL 25 / INSTAGRAM</small>
+                <h3>Construcción y transformación</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DeejEqlxJyH/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-26.jpg" alt="Reel Atrium Craft 26">
+              <div class="rcopy"><small>REEL 26 / INSTAGRAM</small>
+                <h3>Casa en las montañas</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DX2joUlPmL2/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-27.jpg" alt="Reel Atrium Craft 27">
+              <div class="rcopy"><small>REEL 27 / INSTAGRAM</small>
+                <h3>Diseño exterior</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DX5WkmIvgO5/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-28.jpg" alt="Reel Atrium Craft 28">
+              <div class="rcopy"><small>REEL 28 / INSTAGRAM</small>
+                <h3>Puerta artesanal</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DX8I3bCvxw1/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-29.jpg" alt="Reel Atrium Craft 29">
+              <div class="rcopy"><small>REEL 29 / INSTAGRAM</small>
+                <h3>Interior terminado</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DX-a54UtBC9/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-30.jpg" alt="Reel Atrium Craft 30">
+              <div class="rcopy"><small>REEL 30 / INSTAGRAM</small>
+                <h3>Módulo de madera</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYC_9ZtgE0R/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-31.jpg" alt="Reel Atrium Craft 31">
+              <div class="rcopy"><small>REEL 31 / INSTAGRAM</small>
+                <h3>Espacio en roca</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYISX2bvoHi/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-32.jpg" alt="Reel Atrium Craft 32">
+              <div class="rcopy"><small>REEL 32 / INSTAGRAM</small>
+                <h3>Detalle constructivo</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYRsENVBAXF/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-33.jpg" alt="Reel Atrium Craft 33">
+              <div class="rcopy"><small>REEL 33 / INSTAGRAM</small>
+                <h3>Obra y materiales</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYS6tckPS3x/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-34.jpg" alt="Reel Atrium Craft 34">
+              <div class="rcopy"><small>REEL 34 / INSTAGRAM</small>
+                <h3>Entrada de madera</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYYEnOnpq4i/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-35.jpg" alt="Reel Atrium Craft 35">
+              <div class="rcopy"><small>REEL 35 / INSTAGRAM</small>
+                <h3>Proyecto exterior</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYabwKNh_gJ/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-36.jpg" alt="Reel Atrium Craft 36">
+              <div class="rcopy"><small>REEL 36 / INSTAGRAM</small>
+                <h3>Secuencia de obra</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYapcH6J1T0/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-01.jpg" alt="Reel Atrium Craft 37">
+              <div class="rcopy"><small>REEL 37 / INSTAGRAM</small>
+                <h3>Video de Instagram 37</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYdXGUnPFU1/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-02.jpg" alt="Reel Atrium Craft 38">
+              <div class="rcopy"><small>REEL 38 / INSTAGRAM</small>
+                <h3>Video de Instagram 38</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYiN4bqP4UF/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-03.jpg" alt="Reel Atrium Craft 39">
+              <div class="rcopy"><small>REEL 39 / INSTAGRAM</small>
+                <h3>Video de Instagram 39</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYiX08EhkmZ/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-04.jpg" alt="Reel Atrium Craft 40">
+              <div class="rcopy"><small>REEL 40 / INSTAGRAM</small>
+                <h3>Video de Instagram 40</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYp4OHSPMWL/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-05.jpg" alt="Reel Atrium Craft 41">
+              <div class="rcopy"><small>REEL 41 / INSTAGRAM</small>
+                <h3>Video de Instagram 41</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DYsnqDWvrFV/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-06.jpg" alt="Reel Atrium Craft 42">
+              <div class="rcopy"><small>REEL 42 / INSTAGRAM</small>
+                <h3>Video de Instagram 42</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DY5TkQvPkUn/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-07.jpg" alt="Reel Atrium Craft 43">
+              <div class="rcopy"><small>REEL 43 / INSTAGRAM</small>
+                <h3>Video de Instagram 43</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DY719qIv6VA/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-08.jpg" alt="Reel Atrium Craft 44">
+              <div class="rcopy"><small>REEL 44 / INSTAGRAM</small>
+                <h3>Video de Instagram 44</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZERxVBv4XG/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-09.jpg" alt="Reel Atrium Craft 45">
+              <div class="rcopy"><small>REEL 45 / INSTAGRAM</small>
+                <h3>Video de Instagram 45</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZGa-JNhKPM/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-10.jpg" alt="Reel Atrium Craft 46">
+              <div class="rcopy"><small>REEL 46 / INSTAGRAM</small>
+                <h3>Video de Instagram 46</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZLCM93xLxt/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-11.jpg" alt="Reel Atrium Craft 47">
+              <div class="rcopy"><small>REEL 47 / INSTAGRAM</small>
+                <h3>Video de Instagram 47</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZLWzZYBn8S/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-12.jpg" alt="Reel Atrium Craft 48">
+              <div class="rcopy"><small>REEL 48 / INSTAGRAM</small>
+                <h3>Video de Instagram 48</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZLkjjkhBgS/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-13.jpg" alt="Reel Atrium Craft 49">
+              <div class="rcopy"><small>REEL 49 / INSTAGRAM</small>
+                <h3>Video de Instagram 49</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZQ9B0evRDB/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-14.jpg" alt="Reel Atrium Craft 50">
+              <div class="rcopy"><small>REEL 50 / INSTAGRAM</small>
+                <h3>Video de Instagram 50</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZTS6lLvldo/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-15.jpg" alt="Reel Atrium Craft 51">
+              <div class="rcopy"><small>REEL 51 / INSTAGRAM</small>
+                <h3>Video de Instagram 51</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZdDxThR8RG/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-16.jpg" alt="Reel Atrium Craft 52">
+              <div class="rcopy"><small>REEL 52 / INSTAGRAM</small>
+                <h3>Video de Instagram 52</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZdmIDEBDa1/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-17.jpg" alt="Reel Atrium Craft 53">
+              <div class="rcopy"><small>REEL 53 / INSTAGRAM</small>
+                <h3>Video de Instagram 53</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZih_RnhsIW/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-18.jpg" alt="Reel Atrium Craft 54">
+              <div class="rcopy"><small>REEL 54 / INSTAGRAM</small>
+                <h3>Video de Instagram 54</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZlDwjIvqKk/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-19.jpg" alt="Reel Atrium Craft 55">
+              <div class="rcopy"><small>REEL 55 / INSTAGRAM</small>
+                <h3>Video de Instagram 55</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZlfjxfvlWj/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-20.jpg" alt="Reel Atrium Craft 56">
+              <div class="rcopy"><small>REEL 56 / INSTAGRAM</small>
+                <h3>Video de Instagram 56</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZntvC-Pvxn/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-21.jpg" alt="Reel Atrium Craft 57">
+              <div class="rcopy"><small>REEL 57 / INSTAGRAM</small>
+                <h3>Video de Instagram 57</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZoNCCvvPGH/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-22.jpg" alt="Reel Atrium Craft 58">
+              <div class="rcopy"><small>REEL 58 / INSTAGRAM</small>
+                <h3>Video de Instagram 58</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DZx-u6exZ7V/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-23.jpg" alt="Reel Atrium Craft 59">
+              <div class="rcopy"><small>REEL 59 / INSTAGRAM</small>
+                <h3>Video de Instagram 59</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DaBG6KBBTvV/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-24.jpg" alt="Reel Atrium Craft 60">
+              <div class="rcopy"><small>REEL 60 / INSTAGRAM</small>
+                <h3>Video de Instagram 60</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DaGrNLGvAf_/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-25.jpg" alt="Reel Atrium Craft 61">
+              <div class="rcopy"><small>REEL 61 / INSTAGRAM</small>
+                <h3>Video de Instagram 61</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DaJedzaPqXT/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-26.jpg" alt="Reel Atrium Craft 62">
+              <div class="rcopy"><small>REEL 62 / INSTAGRAM</small>
+                <h3>Video de Instagram 62</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DaTIeAxxAck/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-27.jpg" alt="Reel Atrium Craft 63">
+              <div class="rcopy"><small>REEL 63 / INSTAGRAM</small>
+                <h3>Video de Instagram 63</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dad-AjVhvDK/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-28.jpg" alt="Reel Atrium Craft 64">
+              <div class="rcopy"><small>REEL 64 / INSTAGRAM</small>
+                <h3>Video de Instagram 64</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DagU_HPBMdu/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-29.jpg" alt="Reel Atrium Craft 65">
+              <div class="rcopy"><small>REEL 65 / INSTAGRAM</small>
+                <h3>Video de Instagram 65</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DalpIq8vNJV/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-30.jpg" alt="Reel Atrium Craft 66">
+              <div class="rcopy"><small>REEL 66 / INSTAGRAM</small>
+                <h3>Video de Instagram 66</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dan6FCOvC1W/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-31.jpg" alt="Reel Atrium Craft 67">
+              <div class="rcopy"><small>REEL 67 / INSTAGRAM</small>
+                <h3>Video de Instagram 67</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DaoVVWZP6b4/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-32.jpg" alt="Reel Atrium Craft 68">
+              <div class="rcopy"><small>REEL 68 / INSTAGRAM</small>
+                <h3>Video de Instagram 68</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DaqvYNAPjok/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-33.jpg" alt="Reel Atrium Craft 69">
+              <div class="rcopy"><small>REEL 69 / INSTAGRAM</small>
+                <h3>Video de Instagram 69</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dav_Sn6PJbv/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-34.jpg" alt="Reel Atrium Craft 70">
+              <div class="rcopy"><small>REEL 70 / INSTAGRAM</small>
+                <h3>Video de Instagram 70</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Day58vcPNeH/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-35.jpg" alt="Reel Atrium Craft 71">
+              <div class="rcopy"><small>REEL 71 / INSTAGRAM</small>
+                <h3>Video de Instagram 71</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Da1RkuTvH_k/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-36.jpg" alt="Reel Atrium Craft 72">
+              <div class="rcopy"><small>REEL 72 / INSTAGRAM</small>
+                <h3>Video de Instagram 72</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Da5s9zIRSkZ/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-01.jpg" alt="Reel Atrium Craft 73">
+              <div class="rcopy"><small>REEL 73 / INSTAGRAM</small>
+                <h3>Video de Instagram 73</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Da6FAvDBu-r/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-02.jpg" alt="Reel Atrium Craft 74">
+              <div class="rcopy"><small>REEL 74 / INSTAGRAM</small>
+                <h3>Video de Instagram 74</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Da8uUMCvH5g/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-03.jpg" alt="Reel Atrium Craft 75">
+              <div class="rcopy"><small>REEL 75 / INSTAGRAM</small>
+                <h3>Video de Instagram 75</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DbEchIXBxBP/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-04.jpg" alt="Reel Atrium Craft 76">
+              <div class="rcopy"><small>REEL 76 / INSTAGRAM</small>
+                <h3>Video de Instagram 76</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DbMe_uyvj1m/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-05.jpg" alt="Reel Atrium Craft 77">
+              <div class="rcopy"><small>REEL 77 / INSTAGRAM</small>
+                <h3>Video de Instagram 77</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DbRFrHivzn0/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-06.jpg" alt="Reel Atrium Craft 78">
+              <div class="rcopy"><small>REEL 78 / INSTAGRAM</small>
+                <h3>Video de Instagram 78</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/DbRl4t2P31n/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-07.jpg" alt="Reel Atrium Craft 79">
+              <div class="rcopy"><small>REEL 79 / INSTAGRAM</small>
+                <h3>Video de Instagram 79</h3>
+              </div>
+            </a></article>
+          <article class="reel-card"><a href="https://www.instagram.com/reel/Dbd-VNcPMZv/" target="_blank"
+              rel="noopener noreferrer"><img data-asset="reel-08.jpg" alt="Reel Atrium Craft 80">
+              <div class="rcopy"><small>REEL 80 / INSTAGRAM</small>
+                <h3>Video de Instagram 80</h3>
+              </div>
+            </a></article>
+        </div>
+      </section>
+      <section class="reels-bottom">
+        <div class="wrap">
+          <div class="kicker" style="color:#176fa8">CÓMO CRECERÁ ESTE ARCHIVO</div>
+          <h2>Más publicaciones, mejor organización.</h2>
+          <p>La página puede crecer con nuevos Reels sin modificar la estructura del resto del sitio. Cada tarjeta puede
+            enlazar a su publicación de Facebook, incluir una descripción específica, fecha, categoría y una cifra de
+            visualizaciones cuando la información esté disponible.</p>
+          <p>De esa forma, Reels deja de ser solo una galería y se convierte en una biblioteca audiovisual propia de
+            Atrium Craft.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.instagram.com/atriumcraft_/" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-nosotros" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class="active"
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="about-page">
+      <section class="about-hero">
+        <div class="wrap">
+          <div class="kicker">NOSOTROS</div>
+          <h1>Construcción como experiencia visual.</h1>
+          <p class="lead">Atrium Craft nace de una forma de mirar: encontrar interés en el proceso, en la transformación
+            y en los detalles que convierten un espacio cualquiera en algo que merece ser observado.</p>
+        </div>
+      </section>
+      <section class="manifesto">
+        <div class="wrap">
+          <p>No se trata solo de mostrar una obra terminada. Se trata de hacer visible el cambio que la construyó.</p>
+        </div>
+      </section>
+      <section>
+        <div class="about-grid">
+          <article class="about-card"><span>01 / MIRADA</span>
+            <h2>Observar antes de explicar.</h2>
+            <p>La arquitectura y la construcción están llenas de pequeños gestos que pasan desapercibidos. Atrium Craft
+              intenta hacerlos visibles mediante imágenes, recorridos y secuencias claras.</p>
+          </article>
+          <article class="about-card"><span>02 / HISTORIA</span>
+            <h2>La transformación tiene narrativa.</h2>
+            <p>Una excavación, una habitación o una fachada pueden entenderse como capítulos. Cada etapa aporta
+              información y prepara la siguiente.</p>
+          </article>
+          <article class="about-card"><span>03 / COMUNIDAD</span>
+            <h2>El contenido también construye.</h2>
+            <p>Los proyectos generan conversaciones, ideas, referencias y colaboraciones. La web funciona como una
+              extensión más ordenada de ese universo.</p>
+          </article>
+        </div>
+      </section>
+      <section class="about-origin">
+        <div>
+          <div class="kicker">IDENTIDAD</div>
+          <h2>Una marca que se construye mientras construye.</h2>
+        </div>
+        <div>
+          <p>Atrium Craft une dos mundos: el físico y el digital. En el físico están la obra, los materiales, la escala
+            y el trabajo. En el digital están el video, la fotografía, el ritmo y la narración. El sitio intenta
+            conectar ambos.</p>
+          <p>Por eso la identidad visual se mantiene en todas las páginas, pero cada apartado tiene su propio lenguaje.
+            La misma marca puede hablar de una excavación con una lógica técnica, de un exterior con una lógica de
+            paisaje y de un Reel con una lógica de archivo.</p>
+          <p>Esta estructura también permite crecer con más profundidad. Nuevos proyectos, nuevas categorías y nuevas
+            colaboraciones pueden encontrar un lugar claro sin convertir el sitio en una única pantalla.</p>
+          <h3>Qué queremos conservar.</h3>
+          <p>Claridad en la navegación, textos completos, fotografías protagonistas y una relación directa con las
+            publicaciones originales de Atrium Craft.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-contacto" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="active" href="#page-contacto">Contacto</a></nav><a
+          class="btn blue" href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <div class="contact-page">
+      <div class="contact-panel">
+        <section class="contact-left">
+          <div>
+            <div class="kicker">CONTACTO / COLABORACIONES</div>
+            <h1>Hablemos de un proyecto.</h1>
+            <p>Atrium Craft puede trabajar con marcas, herramientas, productos, plataformas y proyectos que tengan una
+              relación real con construcción, creatividad, espacios y contenido visual.</p>
+          </div>
+          <div>
+            <p class="muted">La propuesta puede incluir integración dentro de un video, presencia de marca, menciones,
+              piezas dedicadas o colaboraciones creativas.</p><strong style="display:block;margin-top:18px">ATRium Craft
+              · Construcción · Transformación · Contenido</strong>
+          </div>
+        </section>
+        <section class="contact-right">
+          <div class="kicker" style="color:#176fa8">ENVÍA UNA PROPUESTA</div>
+          <h2>Cuéntanos qué necesitas.</h2>
+          <p>Completa el formulario y envía tu propuesta al equipo de ATRIUM CRAFT.</p>
+          <form class="form" action="https://formsubmit.co/atriumcraft.partnership@gmail.com" method="POST"><input
+              type="hidden" name="_subject" value="Nueva propuesta desde la web de ATRIUM CRAFT"><input type="hidden"
+              name="_template" value="table"><input type="text" name="_honey" style="display:none">
+            <div><label for="contact-name">Nombre</label><input id="contact-name" name="Nombre" type="text"
+                placeholder="Tu nombre" autocomplete="name" required></div>
+            <div><label for="contact-company">Empresa o marca</label><input id="contact-company" name="Empresa o marca"
+                type="text" placeholder="Nombre de la empresa"></div>
+            <div><label for="contact-email">Correo</label><input id="contact-email" name="Correo de contacto"
+                type="email" placeholder="correo@ejemplo.com" autocomplete="email" required></div>
+            <div><label for="contact-type">Tipo de colaboración</label><select id="contact-type"
+                name="Tipo de colaboración" required>
+                <option value="" selected disabled>Selecciona una opción</option>
+                <option>Publicidad en video</option>
+                <option>Colaboración de marca</option>
+                <option>Producto / herramienta</option>
+                <option>Campaña creativa</option>
+                <option>Otro</option>
+              </select></div>
+            <div><label for="contact-message">Mensaje</label><textarea id="contact-message" name="Mensaje"
+                placeholder="Explícanos el proyecto, producto o propuesta..." required></textarea></div><button
+              type="submit">ENVIAR PROPUESTA</button>
+          </form>
+          <div class="contact-note">Al enviar por primera vez, FormSubmit puede solicitar la confirmación del correo
+            destinatario. Revisa la bandeja de entrada de atriumcraft.partnership@gmail.com y confirma la activación
+            para recibir las propuestas.</div>
+        </section>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyecto-subterraneo" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#080a0d">
+      <div class="wrap" style="padding:85px 0 40px">
+        <div class="kicker">PROYECTO / ESPACIO SUBTERRÁNEO</div>
+        <h1>Proyecto 01 · Interior excavado en roca</h1>
+        <p class="lead">Una propuesta donde el propio terreno se convierte en parte del espacio habitable. El interés
+          está en la relación entre roca, estructura, recorrido y acabado.</p>
+      </div>
+      <div class="wrap"><img data-asset="reel-31.jpg" alt="Proyecto 01 · Interior excavado en roca"
+          style="width:100%;height:min(68vw,720px);object-fit:cover"></div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <div class="kicker">CONTEXTO</div>
+        <h2>La historia antes del resultado.</h2>
+        <p>Un proyecto visual se entiende mejor cuando no se presenta como una fotografía aislada. En esta ficha, la
+          imagen principal abre el relato y después aparecen las decisiones que explican por qué el resultado tiene esa
+          forma.</p>
+        <p>La primera pregunta es siempre qué existía al principio. A partir de ahí se puede explicar qué debía cambiar,
+          cuáles eran las restricciones del lugar y qué elementos fueron decisivos para alcanzar el objetivo.</p>
+        <h2>Materiales, recorrido y detalle.</h2>
+        <p>Los materiales determinan gran parte de la sensación final: el peso visual del concreto, la calidez de la
+          madera, la textura de una superficie rugosa o la limpieza de una pared terminada. También importan los
+          recorridos y cómo el usuario descubre cada parte del espacio.</p>
+        <p>Esta página está preparada para crecer con más fotografías, clips de proceso y enlaces a Reels. Así el
+          proyecto conserva su contexto y el espectador puede pasar de la idea al resultado sin salir del archivo de
+          Atrium Craft.</p>
+        <h2>Qué hace especial a este proyecto.</h2>
+        <p>Una propuesta donde el propio terreno se convierte en parte del espacio habitable. El interés está en la
+          relación entre roca, estructura, recorrido y acabado. Ese concepto permite que la obra tenga una identidad
+          propia dentro del sitio y evita que todas las fichas terminen con la misma lectura.</p><a class="btn blue"
+          href="#page-proyectos">← VOLVER A PROYECTOS</a>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyecto-modular" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#080a0d">
+      <div class="wrap" style="padding:85px 0 40px">
+        <div class="kicker">PROYECTO / MÓDULO</div>
+        <h1>Proyecto 02 · Módulo de madera</h1>
+        <p class="lead">Una idea compacta donde la madera, la energía y la relación con el exterior construyen una
+          solución sencilla pero reconocible.</p>
+      </div>
+      <div class="wrap"><img data-asset="reel-08.jpg" alt="Proyecto 02 · Módulo de madera"
+          style="width:100%;height:min(68vw,720px);object-fit:cover"></div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <div class="kicker">CONTEXTO</div>
+        <h2>La historia antes del resultado.</h2>
+        <p>Un proyecto visual se entiende mejor cuando no se presenta como una fotografía aislada. En esta ficha, la
+          imagen principal abre el relato y después aparecen las decisiones que explican por qué el resultado tiene esa
+          forma.</p>
+        <p>La primera pregunta es siempre qué existía al principio. A partir de ahí se puede explicar qué debía cambiar,
+          cuáles eran las restricciones del lugar y qué elementos fueron decisivos para alcanzar el objetivo.</p>
+        <h2>Materiales, recorrido y detalle.</h2>
+        <p>Los materiales determinan gran parte de la sensación final: el peso visual del concreto, la calidez de la
+          madera, la textura de una superficie rugosa o la limpieza de una pared terminada. También importan los
+          recorridos y cómo el usuario descubre cada parte del espacio.</p>
+        <p>Esta página está preparada para crecer con más fotografías, clips de proceso y enlaces a Reels. Así el
+          proyecto conserva su contexto y el espectador puede pasar de la idea al resultado sin salir del archivo de
+          Atrium Craft.</p>
+        <h2>Qué hace especial a este proyecto.</h2>
+        <p>Una idea compacta donde la madera, la energía y la relación con el exterior construyen una solución sencilla
+          pero reconocible. Ese concepto permite que la obra tenga una identidad propia dentro del sitio y evita que
+          todas las fichas terminen con la misma lectura.</p><a class="btn blue" href="#page-proyectos">← VOLVER A
+          PROYECTOS</a>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyecto-habitacion" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#080a0d">
+      <div class="wrap" style="padding:85px 0 40px">
+        <div class="kicker">PROYECTO / INTERIOR</div>
+        <h1>Proyecto 03 · Habitación terminada</h1>
+        <p class="lead">Un interior se completa cuando estructura, superficie, mobiliario y luz dejan de competir y
+          empiezan a funcionar como un conjunto.</p>
+      </div>
+      <div class="wrap"><img data-asset="reel-01.jpg" alt="Proyecto 03 · Habitación terminada"
+          style="width:100%;height:min(68vw,720px);object-fit:cover"></div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <div class="kicker">CONTEXTO</div>
+        <h2>La historia antes del resultado.</h2>
+        <p>Un proyecto visual se entiende mejor cuando no se presenta como una fotografía aislada. En esta ficha, la
+          imagen principal abre el relato y después aparecen las decisiones que explican por qué el resultado tiene esa
+          forma.</p>
+        <p>La primera pregunta es siempre qué existía al principio. A partir de ahí se puede explicar qué debía cambiar,
+          cuáles eran las restricciones del lugar y qué elementos fueron decisivos para alcanzar el objetivo.</p>
+        <h2>Materiales, recorrido y detalle.</h2>
+        <p>Los materiales determinan gran parte de la sensación final: el peso visual del concreto, la calidez de la
+          madera, la textura de una superficie rugosa o la limpieza de una pared terminada. También importan los
+          recorridos y cómo el usuario descubre cada parte del espacio.</p>
+        <p>Esta página está preparada para crecer con más fotografías, clips de proceso y enlaces a Reels. Así el
+          proyecto conserva su contexto y el espectador puede pasar de la idea al resultado sin salir del archivo de
+          Atrium Craft.</p>
+        <h2>Qué hace especial a este proyecto.</h2>
+        <p>Un interior se completa cuando estructura, superficie, mobiliario y luz dejan de competir y empiezan a
+          funcionar como un conjunto. Ese concepto permite que la obra tenga una identidad propia dentro del sitio y
+          evita que todas las fichas terminen con la misma lectura.</p><a class="btn blue" href="#page-proyectos">←
+          VOLVER A PROYECTOS</a>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyecto-exterior" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#080a0d">
+      <div class="wrap" style="padding:85px 0 40px">
+        <div class="kicker">PROYECTO / PAISAJE</div>
+        <h1>Proyecto 04 · Fuente y elemento exterior</h1>
+        <p class="lead">Una pieza de agua y un espacio exterior pueden convertirse en el centro visual del lugar cuando
+          el recorrido está correctamente organizado.</p>
+      </div>
+      <div class="wrap"><img data-asset="reel-26.jpg" alt="Proyecto 04 · Fuente y elemento exterior"
+          style="width:100%;height:min(68vw,720px);object-fit:cover"></div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <div class="kicker">CONTEXTO</div>
+        <h2>La historia antes del resultado.</h2>
+        <p>Un proyecto visual se entiende mejor cuando no se presenta como una fotografía aislada. En esta ficha, la
+          imagen principal abre el relato y después aparecen las decisiones que explican por qué el resultado tiene esa
+          forma.</p>
+        <p>La primera pregunta es siempre qué existía al principio. A partir de ahí se puede explicar qué debía cambiar,
+          cuáles eran las restricciones del lugar y qué elementos fueron decisivos para alcanzar el objetivo.</p>
+        <h2>Materiales, recorrido y detalle.</h2>
+        <p>Los materiales determinan gran parte de la sensación final: el peso visual del concreto, la calidez de la
+          madera, la textura de una superficie rugosa o la limpieza de una pared terminada. También importan los
+          recorridos y cómo el usuario descubre cada parte del espacio.</p>
+        <p>Esta página está preparada para crecer con más fotografías, clips de proceso y enlaces a Reels. Así el
+          proyecto conserva su contexto y el espectador puede pasar de la idea al resultado sin salir del archivo de
+          Atrium Craft.</p>
+        <h2>Qué hace especial a este proyecto.</h2>
+        <p>Una pieza de agua y un espacio exterior pueden convertirse en el centro visual del lugar cuando el recorrido
+          está correctamente organizado. Ese concepto permite que la obra tenga una identidad propia dentro del sitio y
+          evita que todas las fichas terminen con la misma lectura.</p><a class="btn blue" href="#page-proyectos">←
+          VOLVER A PROYECTOS</a>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyecto-detalles" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#080a0d">
+      <div class="wrap" style="padding:85px 0 40px">
+        <div class="kicker">PROYECTO / DETALLE</div>
+        <h1>Proyecto 05 · Entrada y puerta artesanal</h1>
+        <p class="lead">La entrada es el primer contacto con un espacio. Una puerta trabajada puede convertirse en
+          arquitectura y no solamente en cerramiento.</p>
+      </div>
+      <div class="wrap"><img data-asset="reel-19.jpg" alt="Proyecto 05 · Entrada y puerta artesanal"
+          style="width:100%;height:min(68vw,720px);object-fit:cover"></div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <div class="kicker">CONTEXTO</div>
+        <h2>La historia antes del resultado.</h2>
+        <p>Un proyecto visual se entiende mejor cuando no se presenta como una fotografía aislada. En esta ficha, la
+          imagen principal abre el relato y después aparecen las decisiones que explican por qué el resultado tiene esa
+          forma.</p>
+        <p>La primera pregunta es siempre qué existía al principio. A partir de ahí se puede explicar qué debía cambiar,
+          cuáles eran las restricciones del lugar y qué elementos fueron decisivos para alcanzar el objetivo.</p>
+        <h2>Materiales, recorrido y detalle.</h2>
+        <p>Los materiales determinan gran parte de la sensación final: el peso visual del concreto, la calidez de la
+          madera, la textura de una superficie rugosa o la limpieza de una pared terminada. También importan los
+          recorridos y cómo el usuario descubre cada parte del espacio.</p>
+        <p>Esta página está preparada para crecer con más fotografías, clips de proceso y enlaces a Reels. Así el
+          proyecto conserva su contexto y el espectador puede pasar de la idea al resultado sin salir del archivo de
+          Atrium Craft.</p>
+        <h2>Qué hace especial a este proyecto.</h2>
+        <p>La entrada es el primer contacto con un espacio. Una puerta trabajada puede convertirse en arquitectura y no
+          solamente en cerramiento. Ese concepto permite que la obra tenga una identidad propia dentro del sitio y evita
+          que todas las fichas terminen con la misma lectura.</p><a class="btn blue" href="#page-proyectos">← VOLVER A
+          PROYECTOS</a>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <section id="page-proyecto-construccion-cero" class="site-page">
+    <header class="top">
+      <div class="wrap nav"><a class="brand" href="#page-index"><img data-asset="perfil-atrium-craft.png"
+            alt="Atrium Craft">ATRIUM CRAFT</a>
+        <nav class="navlinks"><a class="" href="#page-index">Inicio</a><a class=""
+            href="#page-categorias">Categorías</a><a class="active" href="#page-proyectos">Proyectos</a><a class=""
+            href="#page-proceso">Proceso</a><a class="" href="#page-reels">Reels</a><a class=""
+            href="#page-nosotros">Nosotros</a><a class="" href="#page-contacto">Contacto</a></nav><a class="btn blue"
+          href="#page-contacto">COLABORAR</a>
+      </div>
+    </header>
+    <section class="cover-banner"><img data-asset="banner-atrium-craft.png" alt="Banner oficial de Atrium Craft">
+    </section>
+    <section class="profile">
+      <div class="wrap"><img class="avatar" data-asset="perfil-atrium-craft.png"
+          alt="Foto de perfil oficial de Atrium Craft">
+        <div class="profile-name">Atrium Craft <span class="verified">✓</span></div>
+        <div class="profile-sub">Construcción · Transformación · Creatividad visual</div>
+        <div class="chips"><span class="chip">Construcción</span><span class="chip">Transformaciones</span><span
+            class="chip">Diseño de exteriores</span><span class="chip">Contenido digital</span></div>
+        <div class="profile-actions"><a class="btn blue" href="#page-categorias">EXPLORAR CONTENIDO</a><a class="btn"
+            href="https://www.instagram.com/atriumcraft_/" target="_blank" rel="noopener noreferrer">VER INSTAGRAM</a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#080a0d">
+      <div class="wrap" style="padding:85px 0 40px">
+        <div class="kicker">PROYECTO / OBRA</div>
+        <h1>Proyecto 06 · Construcción desde cero</h1>
+        <p class="lead">El interés de una obra desde cero está en la secuencia: el terreno vacío se convierte poco a
+          poco en un espacio definido.</p>
+      </div>
+      <div class="wrap"><img data-asset="reel-34.jpg" alt="Proyecto 06 · Construcción desde cero"
+          style="width:100%;height:min(68vw,720px);object-fit:cover"></div>
+    </section>
+    <section class="section">
+      <div class="wrap prose">
+        <div class="kicker">CONTEXTO</div>
+        <h2>La historia antes del resultado.</h2>
+        <p>Un proyecto visual se entiende mejor cuando no se presenta como una fotografía aislada. En esta ficha, la
+          imagen principal abre el relato y después aparecen las decisiones que explican por qué el resultado tiene esa
+          forma.</p>
+        <p>La primera pregunta es siempre qué existía al principio. A partir de ahí se puede explicar qué debía cambiar,
+          cuáles eran las restricciones del lugar y qué elementos fueron decisivos para alcanzar el objetivo.</p>
+        <h2>Materiales, recorrido y detalle.</h2>
+        <p>Los materiales determinan gran parte de la sensación final: el peso visual del concreto, la calidez de la
+          madera, la textura de una superficie rugosa o la limpieza de una pared terminada. También importan los
+          recorridos y cómo el usuario descubre cada parte del espacio.</p>
+        <p>Esta página está preparada para crecer con más fotografías, clips de proceso y enlaces a Reels. Así el
+          proyecto conserva su contexto y el espectador puede pasar de la idea al resultado sin salir del archivo de
+          Atrium Craft.</p>
+        <h2>Qué hace especial a este proyecto.</h2>
+        <p>El interés de una obra desde cero está en la secuencia: el terreno vacío se convierte poco a poco en un
+          espacio definido. Ese concepto permite que la obra tenga una identidad propia dentro del sitio y evita que
+          todas las fichas terminen con la misma lectura.</p><a class="btn blue" href="#page-proyectos">← VOLVER A
+          PROYECTOS</a>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div>
+          <div class="brand"><img data-asset="perfil-atrium-craft.png" alt="">ATRIUM CRAFT</div>
+          <p class="muted">Construcción, transformación, diseño y creatividad visual. Este sitio organiza el universo de
+            Atrium Craft en páginas independientes para que cada tema tenga el espacio que merece.</p>
+        </div>
+        <div><strong>Explorar</strong>
+          <div class="footer-links"><a href="#page-categorias">Categorías</a><a href="#page-proyectos">Proyectos</a><a
+              href="#page-proceso">Proceso</a><a href="#page-reels">Reels</a></div>
+        </div>
+        <div><strong>Marca</strong>
+          <div class="footer-links"><a href="#page-nosotros">Nosotros</a><a href="#page-contacto">Contacto</a></div>
+        </div>
+        <div><strong>Redes</strong>
+          <div class="footer-links"><a href="https://www.facebook.com/atriumcraft" target="_blank">Facebook</a><a
+              href="https://www.instagram.com/atriumcraft_/" target="_blank">Instagram</a></div>
+        </div>
+      </div>
+      <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
+    </footer>
+  </section>
+  <script>const ASSETS = {};
+    (function () {
+      const pages = [...document.querySelectorAll('.site-page')];
+      const valid = new Set(pages.map(p => p.id));
+      document.querySelectorAll('[data-asset]').forEach(el => { const n = el.getAttribute('data-asset'); if (n) el.src = 'assets/' + n; });
+      function show(id, push) { if (!valid.has(id)) id = 'page-index'; pages.forEach(p => p.classList.toggle('active', p.id === id)); if (push) history.replaceState(null, '', '#' + id); window.scrollTo(0, 0); }
+      function fromHash() { show(location.hash.slice(1) || 'page-index', false) }
+      document.addEventListener('click', e => { const a = e.target.closest('a[href^="#page-"]'); if (!a) return; e.preventDefault(); show(a.getAttribute('href').slice(1), true); });
+      window.addEventListener('hashchange', fromHash); fromHash();
+      document.addEventListener('submit', e => { if (e.target.matches('form') && !e.target.action.startsWith('https://formsubmit.co/')) { e.preventDefault(); alert('Este formulario aún no está conectado a un servicio de envío.'); } });
+    })();
+  </script>
+</body>
+
+</html>
