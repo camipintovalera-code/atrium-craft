@@ -2170,6 +2170,90 @@
         color: #111 !important
       }
     }
+
+
+    /* VISOR DE REELS EN LA MISMA PAGINA */
+    .reel-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(0, 0, 0, .88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px
+    }
+
+    .reel-viewer.is-open {
+      display: flex
+    }
+
+    .reel-viewer-panel {
+      position: relative;
+      width: min(100%, 520px);
+      max-height: 94vh;
+      background: #080808;
+      border: 1px solid #333;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, .6)
+    }
+
+    .reel-viewer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font: 700 13px Arial, sans-serif
+    }
+
+    .reel-viewer-close {
+      border: 0;
+      border-radius: 999px;
+      background: #252a30;
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      font-size: 25px;
+      line-height: 1;
+      cursor: pointer
+    }
+
+    .reel-viewer-frame {
+      display: block;
+      width: 100%;
+      height: min(76vh, 760px);
+      border: 0;
+      background: #000
+    }
+
+    .reel-viewer-note {
+      padding: 10px 14px;
+      color: #bfc5cc;
+      font: 12px/1.5 Arial, sans-serif
+    }
+
+    .reel-viewer-note a {
+      color: #7dcbff;
+      text-decoration: underline
+    }
+
+    @media(max-width:600px) {
+      .reel-viewer {
+        padding: 8px
+      }
+
+      .reel-viewer-panel {
+        width: 100%;
+        border-radius: 12px
+      }
+
+      .reel-viewer-frame {
+        height: 76vh
+      }
+    }
   </style>
 </head>
 
@@ -3509,8 +3593,8 @@
               <div class="kicker">ARCHIVO AUDIOVISUAL</div>
               <div class="big">REELS</div>
               <p style="max-width:760px;font-size:18px;color:#5e6265">Una página dedicada exclusivamente a las
-                publicaciones de video. Las miniaturas proceden de las capturas de Facebook que aportaste y cada tarjeta
-                lleva al perfil original.</p>
+                publicaciones de video. Pulsa cualquier miniatura para reproducir el Reel aquí mismo, sin salir de
+                Atrium Craft.</p>
             </div>
             <div class="reels-count">80<span>Reels enlazados</span></div>
           </div>
