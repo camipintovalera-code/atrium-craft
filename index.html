@@ -2255,6 +2255,98 @@
       }
     }
   </style>
+  <style id="atrium-reels-player-css">
+    #ac-reel-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(5, 8, 12, .88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      box-sizing: border-box
+    }
+
+    #ac-reel-modal.is-open {
+      display: flex
+    }
+
+    #ac-reel-modal .ac-player-box {
+      position: relative;
+      width: min(100%, 520px);
+      height: min(88vh, 900px);
+      background: #080a0d;
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .45)
+    }
+
+    #ac-reel-modal .ac-player-top {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #fff;
+      font: 700 13px/1 Arial, sans-serif;
+      background: #111827
+    }
+
+    #ac-reel-modal .ac-player-close {
+      border: 0;
+      border-radius: 8px;
+      background: #fff;
+      color: #111827;
+      font-size: 24px;
+      line-height: 1;
+      width: 36px;
+      height: 36px;
+      cursor: pointer
+    }
+
+    #ac-reel-modal iframe {
+      display: block;
+      width: 100%;
+      height: calc(100% - 52px);
+      border: 0;
+      background: #000
+    }
+
+    #ac-reel-modal .ac-player-fallback {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 10px;
+      text-align: center;
+      font: 12px Arial, sans-serif;
+      color: #fff;
+      pointer-events: none;
+      text-shadow: 0 1px 4px #000
+    }
+
+    #ac-reel-modal .ac-player-fallback a {
+      pointer-events: auto;
+      color: #fff;
+      text-decoration: underline
+    }
+
+    body.ac-modal-open {
+      overflow: hidden
+    }
+
+    @media(max-width:520px) {
+      #ac-reel-modal {
+        padding: 8px
+      }
+
+      #ac-reel-modal .ac-player-box {
+        height: 88vh;
+        border-radius: 12px
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -4792,6 +4884,18 @@
       <div class="wrap footer-copy">Copyright 2026 Atrium Craft. Todos los derechos reservados.</div>
     </footer>
   </section>
+  <div id="ac-reel-modal" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-label="Reproductor de Reel de Instagram">
+    <div class="ac-player-box">
+      <div class="ac-player-top"><span>ATRIUM CRAFT · REELS</span><button class="ac-player-close" type="button"
+          aria-label="Cerrar reproductor">×</button></div>
+      <iframe id="ac-reel-frame" title="Reel de Instagram" src="about:blank"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen
+        loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="ac-player-fallback">Si Instagram no permite reproducirlo aquí, <a id="ac-reel-fallback-link"
+          href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">abrir Reel en Instagram</a>.</div>
+    </div>
+  </div>
   <script>const ASSETS = {};
     (function () {
       const pages = [...document.querySelectorAll('.site-page')];
@@ -4800,6 +4904,15 @@
       function show(id, push) { if (!valid.has(id)) id = 'page-index'; pages.forEach(p => p.classList.toggle('active', p.id === id)); if (push) history.replaceState(null, '', '#' + id); window.scrollTo(0, 0); }
       function fromHash() { show(location.hash.slice(1) || 'page-index', false) }
       document.addEventListener('click', e => { const a = e.target.closest('a[href^="#page-"]'); if (!a) return; e.preventDefault(); show(a.getAttribute('href').slice(1), true); });
+      const reelModal = document.getElementById('ac-reel-modal');
+      const reelFrame = document.getElementById('ac-reel-frame');
+      const reelFallback = document.getElementById('ac-reel-fallback-link');
+      function closeReel() { if (!reelModal) return; reelModal.classList.remove('is-open'); reelModal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('ac-modal-open'); reelFrame.src = 'about:blank'; }
+      function openReel(url) { const match = url.match(/instagram\.com\/reel\/([A-Za-z0-9_-]+)/i); if (!match) return; const permalink = 'https://www.instagram.com/reel/' + match[1] + '/'; reelFallback.href = permalink; reelFrame.src = 'https://www.instagram.com/reel/' + match[1] + '/embed'; reelModal.classList.add('is-open'); reelModal.setAttribute('aria-hidden', 'false'); document.body.classList.add('ac-modal-open'); }
+      document.addEventListener('click', e => { const a = e.target.closest('#page-reels .reel-card a[href*="instagram.com/reel/"]'); if (!a) return; e.preventDefault(); e.stopPropagation(); openReel(a.href); });
+      reelModal.querySelector('.ac-player-close').addEventListener('click', closeReel);
+      reelModal.addEventListener('click', e => { if (e.target === reelModal) closeReel(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReel(); });
       window.addEventListener('hashchange', fromHash); fromHash();
       document.addEventListener('submit', e => { if (e.target.matches('form') && !e.target.action.startsWith('https://formsubmit.co/')) { e.preventDefault(); alert('Este formulario aún no está conectado a un servicio de envío.'); } });
     })();
