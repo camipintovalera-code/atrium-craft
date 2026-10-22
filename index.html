@@ -1274,9 +1274,47 @@
     }
 
     @media(max-width:950px) {
-      .navlinks {
-        display: none
-      }
+      
+.navlinks {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  order: 3;
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  gap: 18px;
+  padding: 12px 0;
+  visibility: visible !important;
+}
+
+.navlinks a {
+  display: inline-block !important;
+  flex: 0 0 auto;
+  visibility: visible !important;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.brand {
+  order: 1;
+  flex: 1 1 auto;
+}
+
+.nav > .btn {
+  order: 2;
+  margin-left: auto;
+}
+
 
       .footer-grid,
       .blueprint-grid,
