@@ -2387,6 +2387,68 @@
       }
     }
   </style>
+  
+<style>
+/* ATRIUM CRAFT: menú visible en la parte superior del celular */
+@media (max-width: 950px) {
+  .top .nav {
+    min-height: auto !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px 12px !important;
+    padding-top: 10px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .top .brand {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 11px;
+    letter-spacing: .12em;
+  }
+
+  .top .nav > .btn {
+    order: 2;
+    margin-left: auto;
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+
+  .top .navlinks {
+    order: 3;
+    display: flex !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 0 12px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .top .navlinks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .top .navlinks a {
+    display: inline-block !important;
+    flex: 0 0 auto;
+    color: #111 !important;
+    font-size: 12px;
+    white-space: nowrap;
+    padding: 3px 0;
+  }
+}
+</style>
+
 </head>
 
 <body>
